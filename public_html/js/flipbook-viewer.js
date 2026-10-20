@@ -891,36 +891,53 @@ class FlipbookViewer {
     }
 
     getPaginasVisibles() {
-        if (!this.pageFlipInstance) {
+        if (!this.imageList || !this.imageList.length) return [0];
+
+        const isDesktop = !this.isMobile && (window.innerWidth > 768);
+
+        // En móvil o pantallas angostas, siempre se visualiza y hace zoom a 1 sola página
+        if (!isDesktop) {
             return [this.currentPage || 0];
         }
+
+        const curPage = (this.pageFlipInstance && typeof this.pageFlipInstance.getCurrentPageIndex === 'function')
+            ? this.pageFlipInstance.getCurrentPageIndex()
+            : (this.currentPage || 0);
+
+        // Si es la portada (página 0), siempre es 1 sola página en zoom
+        if (curPage === 0) {
+            return [0];
+        }
+
+        // Si PageFlip tiene su arreglo landscapeSpread, usarlo directamente
         try {
-            const pageCol = this.pageFlipInstance.getPageCollection ? this.pageFlipInstance.getPageCollection() : null;
-            if (pageCol && pageCol.getSpread) {
-                const spreads = pageCol.getSpread();
-                const curPage = this.pageFlipInstance.getCurrentPageIndex();
-                const spreadIdx = pageCol.getSpreadIndexByPage(curPage);
-                if (spreadIdx !== null && spreads && spreads[spreadIdx]) {
-                    const paginas = spreads[spreadIdx].filter(p => typeof p === 'number' && p >= 0 && p < this.imageList.length);
-                    if (paginas.length > 0) return paginas;
+            const pageCol = this.pageFlipInstance?.getPageCollection?.();
+            if (pageCol && Array.isArray(pageCol.landscapeSpread)) {
+                for (const spread of pageCol.landscapeSpread) {
+                    if (Array.isArray(spread) && spread.includes(curPage)) {
+                        const validas = spread.filter(p => typeof p === 'number' && p >= 0 && p < this.imageList.length);
+                        if (validas.length > 0) return validas;
+                    }
                 }
             }
         } catch (e) {
-            console.warn("Error obteniendo páginas visibles de PageFlip:", e);
+            console.warn("Error leyendo landscapeSpread de PageFlip:", e);
         }
 
-        // Fallback robusto según orientación y dimensiones de pantalla
-        const isLandscape = !this.isMobile && (window.innerWidth > 768);
-        if (!isLandscape || this.currentPage === 0) {
-            return [this.currentPage || 0];
-        }
-        const leftPage = (this.currentPage % 2 === 1) ? this.currentPage : this.currentPage - 1;
+        // Cálculo determinista para revista con portada (showCover: true):
+        // Página 0: Portada [0]
+        // Páginas 1 y 2: [1, 2] (Págs 2 y 3 visibles)
+        // Páginas 3 y 4: [3, 4]
+        // Páginas 5 y 6: [5, 6] (Págs 6 y 7 visibles)
+        const leftPage = (curPage % 2 === 1) ? curPage : curPage - 1;
         const rightPage = leftPage + 1;
+
         if (rightPage < this.imageList.length) {
             return [leftPage, rightPage];
         }
         return [leftPage];
     }
+
 
     updateZoomState() {
         this.isZoomMode = Math.abs(this.currentZoom - 1.0) > 0.001;

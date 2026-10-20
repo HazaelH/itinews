@@ -12,15 +12,15 @@
     <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
     
     <!-- CSS del Visor -->
-    <link href="{{ asset('css/flipbook.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/flipbook.css') }}?v={{ file_exists(public_path('css/flipbook.css')) ? filemtime(public_path('css/flipbook.css')) : time() }}" rel="stylesheet">
 </head>
 <body>
     @yield('visor-content')
     
     <!-- Métricas anónimas (debe cargarse antes del visor) -->
-    <script src="{{ asset('js/metricas.js') }}"></script>
+    <script src="{{ asset('js/metricas.js') }}?v={{ file_exists(public_path('js/metricas.js')) ? filemtime(public_path('js/metricas.js')) : time() }}"></script>
 
     <!-- JavaScript del Visor -->
-    <script src="{{ asset('js/flipbook-viewer.js') }}"></script>
+    <script src="{{ asset('js/flipbook-viewer.js') }}?v={{ file_exists(public_path('js/flipbook-viewer.js')) ? filemtime(public_path('js/flipbook-viewer.js')) : time() }}"></script>
 </body>
 </html>

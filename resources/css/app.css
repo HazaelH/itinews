@@ -1,3 +1,5 @@
 @import './revistas.css';
 @import './admin.css';
 @import 'tailwindcss';
+@source '../views';
+@source '../../app';

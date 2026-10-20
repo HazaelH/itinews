@@ -1118,14 +1118,54 @@
 }
 
 /* =====================================================================
+   Layout General del Panel Admin
+   ===================================================================== */
+.admin-layout-body {
+    margin: 0;
+    padding: 0;
+    background: #691c32;
+    color: #23242a;
+    font-family: 'Figtree', sans-serif;
+    min-height: 100vh;
+}
+
+.admin-layout-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #691c32 0%, #8b2d4a 100%);
+    width: 100%;
+}
+
+.admin-layout-main {
+    padding-top: 70px;
+    flex: 1 0 auto;
+    width: 100%;
+}
+
+/* =====================================================================
    Unificación visual del admin (fondo vino institucional)
    Tanto el dashboard como el resto de vistas del admin comparten el
    fondo vino; el contenido se apoya en tarjetas blancas para el contraste.
    ===================================================================== */
 .dashboard-container {
-    background: linear-gradient(135deg, #691c32 0%, #8b2d4a 100%);
-    padding: 28px 0 60px;
-    min-height: calc(100vh - 5rem);
+    background: transparent;
+    padding: 24px 0 60px;
+    min-height: calc(100vh - 70px);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.dashboard-container .max-w-7xl,
+.dashboard-container .dashboard-wrap,
+.panel-wrap {
+    max-width: 1360px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .dashboard-welcome {
@@ -1153,6 +1193,34 @@
 
 .dashboard-welcome p {
     color: #6b6b6b;
+}
+
+.dashboard-welcome .flex {
+    display: flex;
+}
+
+.dashboard-welcome .justify-between {
+    justify-content: space-between;
+}
+
+.dashboard-welcome .items-center {
+    align-items: center;
+}
+
+.dashboard-welcome .gap-2 {
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .dashboard-welcome .flex.justify-between {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    .dashboard-welcome .flex.gap-2 {
+        width: 100%;
+    }
 }
 
 /* Las tarjetas sobre el fondo vino necesitan más contraste */

@@ -12,10 +12,11 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
         @vite(['resources/css/app.css', 'resources/css/custom.css', 'resources/js/app.js', 'resources/js/navbar.js'])
+        <link rel="stylesheet" href="{{ asset('css/panel-admin.css') }}?v={{ file_exists(public_path('css/panel-admin.css')) ? filemtime(public_path('css/panel-admin.css')) : time() }}">
     </head>
 
-    <body class="font-sans antialiased login-page-wrapper">
-        <div class="min-h-screen">
+    <body class="font-sans antialiased admin-layout-body">
+        <div class="admin-layout-wrapper">
             <nav class="login-navbar">
                 <div class="nav-container">
                     
@@ -73,7 +74,7 @@
                 </div>
             </nav>
 
-            <main class="pt-20">
+            <main class="admin-layout-main">
                 {{ $slot }}
             </main>
 

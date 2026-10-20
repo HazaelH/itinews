@@ -1,5 +1,5 @@
 <x-app-layout>
-    <link rel="stylesheet" href="{{ asset('css/panel-admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/panel-admin.css') }}?v={{ file_exists(public_path('css/panel-admin.css')) ? filemtime(public_path('css/panel-admin.css')) : time() }}">
     <div class="dashboard-container">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
