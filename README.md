@@ -393,6 +393,6 @@ php artisan optimize:clear
 
 ## 👥 Contribución y Créditos
 
-Desarrollado para la **Universidad Politécnica del Valle de Toluca (UPVT)** por **Hazael Hernández**.
+Desarrollado para la **Universidad Politécnica del Valle de Toluca (UPVT)** por **Hazael Hernández Arriaga en el periodo Septiembre - Diciembre del 2025**.
 
 Cualquier consulta o reporte de incidencias puede gestionarse a través del gestor de issues del repositorio.
