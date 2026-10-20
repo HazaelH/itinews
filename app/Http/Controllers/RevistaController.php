@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Artisan;
 use App\Jobs\ProcesarPdfJob;
 
 class RevistaController extends Controller
@@ -68,14 +69,16 @@ class RevistaController extends Controller
                 'trace' => $e->getTraceAsString()
             ]);
 
+            $mensajeUsuario = 'Ocurrió un error inesperado al procesar la revista. Por favor, verifique el archivo e intente nuevamente.';
+
             if ($request->ajax() || $request->wantsJson()) {
                 return response()->json([
                     'success' => false,
-                    'error' => 'Error al procesar la revista: ' . $e->getMessage()
+                    'error' => $mensajeUsuario
                 ], 500);
             }
 
-            return back()->with('error', 'Error al procesar la revista: ' . $e->getMessage())
+            return back()->with('error', $mensajeUsuario)
                 ->withInput();
         }
     }
@@ -197,8 +200,9 @@ class RevistaController extends Controller
                 ->with('success', 'Revista actualizada exitosamente.');
 
         } catch (\Throwable $e) {
-            Log::error('Error actualizando revista: ' . $e->getMessage());
-            return back()->with('error', 'Error al actualizar la revista: ' . $e->getMessage());
+            Log::error('Error actualizando revista: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+            return back()->with('error', 'Ocurrió un error al actualizar la revista. Por favor, intente nuevamente.')
+                ->withInput();
         }
     }
 
@@ -231,9 +235,9 @@ class RevistaController extends Controller
             return redirect()->route('dashboard')
                 ->with('success', 'Revista eliminada exitosamente.');
 
-        } catch (\Exception $e) {
-            Log::error('Error eliminando revista: ' . $e->getMessage());
-            return back()->with('error', 'Error al eliminar la revista: ' . $e->getMessage());
+        } catch (\Throwable $e) {
+            Log::error('Error eliminando revista: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+            return back()->with('error', 'Ocurrió un error al eliminar la revista. Por favor, intente nuevamente.');
         }
     }
 
@@ -285,9 +289,9 @@ class RevistaController extends Controller
             return redirect()->route('revista.procesando', $revista) 
                 ->with('info', 'El PDF se está reprocesando...');
 
-        } catch (\Exception $e) {
-            Log::error('Error reprocesando revista: ' . $e->getMessage());
-            return back()->with('error', 'Error al reprocesar el PDF: ' . $e->getMessage());
+        } catch (\Throwable $e) {
+            Log::error('Error reprocesando revista: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+            return back()->with('error', 'Ocurrió un error al reprocesar el PDF. Por favor, intente nuevamente.');
         }
     }
 
@@ -302,14 +306,31 @@ class RevistaController extends Controller
 
         try {
             $artisan = base_path('artisan');
+
             if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-                // Windows background launch
-                pclose(popen("start /B php \"{$artisan}\" queue:work --stop-when-empty > NUL 2>&1", "r"));
+                if (function_exists('popen') && function_exists('pclose')) {
+                    @pclose(@popen("start /B php \"{$artisan}\" queue:work --stop-when-empty > NUL 2>&1", "r"));
+                    return;
+                }
             } else {
-                // Linux / Unix background launch
-                exec("php \"{$artisan}\" queue:work --stop-when-empty > /dev/null 2>&1 &");
+                if (function_exists('exec')) {
+                    @exec("php \"{$artisan}\" queue:work --stop-when-empty > /dev/null 2>&1 &");
+                    return;
+                }
+                if (function_exists('shell_exec')) {
+                    @shell_exec("php \"{$artisan}\" queue:work --stop-when-empty > /dev/null 2>&1 &");
+                    return;
+                }
             }
-        } catch (\Exception $e) {
+
+            // Fallback en entornos donde exec/popen están deshabilitados (ej. hosting compartido):
+            // Procesar el trabajo pendiente de la cola de forma síncrona mediante Artisan.
+            @set_time_limit(300);
+            Artisan::call('queue:work', [
+                '--stop-when-empty' => true,
+                '--max-time' => 120,
+            ]);
+        } catch (\Throwable $e) {
             Log::warning("No se pudo iniciar queue:work automáticamente: " . $e->getMessage());
         }
     }

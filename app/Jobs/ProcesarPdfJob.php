@@ -74,12 +74,14 @@ class ProcesarPdfJob implements ShouldQueue
 
             Log::info("Procesamiento completado con éxito - Revista: {$this->revista->id}");
 
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->revista->update([
                 'estado_procesamiento' => 'error',
                 'progreso' => 0,
             ]);
-            Log::error("Error en ProcesarPdfJob (Revista {$this->revista->id}): " . $e->getMessage());
+            Log::error("Error en ProcesarPdfJob (Revista {$this->revista->id}): " . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
             throw $e;
         }
     }
@@ -89,16 +91,20 @@ class ProcesarPdfJob implements ShouldQueue
      */
     private function contarPaginas(string $pdfPath): int
     {
-        // A. Intentar con pdfinfo
-        $pdfinfoBin = $this->detectarPdfInfo();
-        if ($pdfinfoBin) {
-            $cmd = escapeshellcmd($pdfinfoBin) . ' ' . escapeshellarg($pdfPath) . ' 2>&1';
-            @exec($cmd, $lines, $code);
-            if ($code === 0 && !empty($lines)) {
-                foreach ($lines as $line) {
-                    if (preg_match('/Pages:\s+(\d+)/i', $line, $matches)) {
-                        $p = (int)$matches[1];
-                        if ($p > 0) return $p;
+        // A. Intentar con pdfinfo si exec está disponible
+        if (function_exists('exec')) {
+            $pdfinfoBin = $this->detectarPdfInfo();
+            if ($pdfinfoBin) {
+                $cmd = escapeshellcmd($pdfinfoBin) . ' ' . escapeshellarg($pdfPath) . ' 2>&1';
+                $lines = [];
+                $code = 1;
+                @exec($cmd, $lines, $code);
+                if ($code === 0 && !empty($lines)) {
+                    foreach ($lines as $line) {
+                        if (preg_match('/Pages:\s+(\d+)/i', $line, $matches)) {
+                            $p = (int)$matches[1];
+                            if ($p > 0) return $p;
+                        }
                     }
                 }
             }
@@ -113,7 +119,7 @@ class ProcesarPdfJob implements ShouldQueue
                 $im->clear();
                 $im->destroy();
                 if ($p > 0) return $p;
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 Log::warning("Imagick pingImage no disponible o falló: " . $e->getMessage());
             }
         }
@@ -139,6 +145,10 @@ class ProcesarPdfJob implements ShouldQueue
      */
     private function procesarConPoppler(string $popplerBin, string $pdfPath, int $totalPaginas, string $outputPath): void
     {
+        if (!function_exists('exec')) {
+            throw new \RuntimeException("La función exec está deshabilitada en el servidor.");
+        }
+
         Log::info("Ejecutando motor Poppler pdftoppm para {$totalPaginas} páginas.");
 
         for ($i = 1; $i <= $totalPaginas; $i++) {
@@ -281,6 +291,10 @@ class ProcesarPdfJob implements ShouldQueue
      */
     private function detectarPoppler(): ?string
     {
+        if (!function_exists('exec')) {
+            return null;
+        }
+
         $candidatos = array_filter([
             env('POPPLER_PATH'),
             'pdftoppm',
@@ -293,11 +307,12 @@ class ProcesarPdfJob implements ShouldQueue
         ]);
 
         foreach ($candidatos as $cmd) {
+            $salida = [];
+            $codigo = 1;
             @exec(escapeshellcmd($cmd) . ' -v 2>&1', $salida, $codigo);
             if ($codigo === 0) {
                 return $cmd;
             }
-            $salida = [];
         }
 
         return null;
@@ -308,6 +323,10 @@ class ProcesarPdfJob implements ShouldQueue
      */
     private function detectarPdfInfo(): ?string
     {
+        if (!function_exists('exec')) {
+            return null;
+        }
+
         $candidatos = array_filter([
             env('PDFINFO_PATH'),
             'pdfinfo',
@@ -320,11 +339,12 @@ class ProcesarPdfJob implements ShouldQueue
         ]);
 
         foreach ($candidatos as $cmd) {
+            $salida = [];
+            $codigo = 1;
             @exec(escapeshellcmd($cmd) . ' -v 2>&1', $salida, $codigo);
             if ($codigo === 0) {
                 return $cmd;
             }
-            $salida = [];
         }
 
         return null;
