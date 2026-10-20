@@ -130,7 +130,7 @@ class RevistaController extends Controller
 
     public function index()
     {
-        $revistas = Revista::activas()->latest()->paginate(12);
+        $revistas = Revista::activas()->recientes()->paginate(12);
         return view('revistas.revistas', ['revistas' => $revistas]);
     }
 

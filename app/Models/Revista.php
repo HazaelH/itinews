@@ -47,6 +47,16 @@ class Revista extends Model
         return $query->where('activo', true);
     }
 
+    /**
+     * Orden cronológico de publicación: más recientes primero.
+     * En caso de empate en la fecha de publicación, desempata por creación más reciente.
+     */
+    public function scopeRecientes($query)
+    {
+        return $query->orderBy('fecha_publicacion', 'desc')
+            ->orderBy('created_at', 'desc');
+    }
+
     public function estaActiva(): bool
     {
         // Las revistas existentes sin el campo definido se consideran activas.

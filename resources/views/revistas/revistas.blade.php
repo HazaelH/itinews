@@ -31,9 +31,10 @@
                 <div class="stat-card">
                     <i class="fas fa-calendar stat-icon"></i>
                     @php
-                        $aniosUnicos = $revistas->pluck('fecha_publicacion')->map(function($fecha) {
-                            return $fecha->format('Y');
-                        })->unique()->count();
+                        $aniosUnicos = \App\Models\Revista::activas()
+                            ->selectRaw('YEAR(fecha_publicacion) as anio')
+                            ->distinct()
+                            ->count();
                     @endphp
                     <div class="stat-number">{{ $aniosUnicos }}</div>
                     <div class="stat-label">Años Publicados</div>

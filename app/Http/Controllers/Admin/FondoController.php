@@ -348,7 +348,7 @@ class FondoController extends Controller
     {
         return Revista::activas()
             ->whereNotNull('ruta_portada')
-            ->latest()
+            ->recientes()
             ->get(['id', 'titulo', 'ruta_portada']);
     }
 

@@ -53,7 +53,7 @@ class FondoActual
             $portadas = Revista::query()
                 ->activas()
                 ->whereNotNull('ruta_portada')
-                ->latest()
+                ->recientes()
                 ->take(10)
                 ->pluck('ruta_portada')
                 ->map(fn ($ruta) => Revista::urlDePortada($ruta))

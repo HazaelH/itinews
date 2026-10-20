@@ -358,7 +358,8 @@
                     <span class="badge" id="count-all">0</span>
                 </button>
                 @php
-                $anios = \App\Models\Revista::selectRaw('YEAR(fecha_publicacion) as año')
+                $anios = \App\Models\Revista::activas()
+                    ->selectRaw('YEAR(fecha_publicacion) as año')
                     ->distinct()
                     ->orderBy('año', 'desc')
                     ->pluck('año');

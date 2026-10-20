@@ -21,7 +21,7 @@ class AuthenticatedSessionController extends Controller
         $portadas = Revista::query()
             ->activas()
             ->whereNotNull('ruta_portada')
-            ->latest()
+            ->recientes()
             ->take(10)
             ->pluck('ruta_portada')
             ->map(fn ($ruta) => asset('storage/' . ltrim($ruta, '/')))

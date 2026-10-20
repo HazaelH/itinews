@@ -19,7 +19,7 @@ Route::get('/revistas/{revista}', [RevistaController::class, 'show'])->name('rev
 Route::middleware(['auth', 'verified'])->group(function () {
     
     Route::get('/dashboard', function () {
-        $revistas = \App\Models\Revista::withCount('paginas')->latest()->paginate(10);
+        $revistas = \App\Models\Revista::withCount('paginas')->recientes()->paginate(10);
 
         $revistasActivas = \App\Models\Revista::where('activo', true)->count();
         $revistasOcultas = \App\Models\Revista::where('activo', false)->count();
