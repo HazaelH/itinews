@@ -36,7 +36,7 @@
             --background-color: #f8f2ee !important;
             --surface-color: #ffffff !important;
             --text-color: #1e1f23 !important;
-            --text-secondary: #666666 !important;
+            --text-secondary: #4b5563 !important;
             --border-color: #e0d5c8 !important;
             --light-gray: #f8f2ee !important;
         }
@@ -109,6 +109,7 @@
         /* Hover */
         .revista:hover p {
             background: linear-gradient(135deg, #1f5b4f, #164236) !important;
+            color: #ffffff !important;
         }
 
         .tarjeta-compacta:hover {
@@ -216,6 +217,7 @@
 
         .dark-mode .revista:hover p {
             background: linear-gradient(135deg, #3a9a8a, #2a7a6a) !important;
+            color: #ffffff !important;
         }
     </style>
 

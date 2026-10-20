@@ -797,34 +797,64 @@ class FlipbookManager {
         const previewTitle = document.getElementById('preview-title');
         const previewDesc = document.getElementById('preview-desc');
         const startReadingBtn = document.getElementById('start-reading-btn');
+        const previewBadge = document.getElementById('preview-badge');
 
         if (!previewContainer) return;
 
-        const titulo = revistaElement.dataset.titulo;
+        const titulo = revistaElement.dataset.titulo || 'Sin título';
         const descripcion = revistaElement.dataset.descripcion;
         const portada = revistaElement.dataset.portada;
         const urlVisor = revistaElement.dataset.urlVisor;
+        const anio = revistaElement.dataset.estacion;
         
         previewImg.src = portada;
         previewImg.alt = `Portada de ${titulo}`;
         previewTitle.textContent = titulo;
-        previewDesc.textContent = descripcion || 'Descripción no disponible.';
+        previewDesc.textContent = (descripcion && descripcion.trim() !== '') 
+            ? descripcion 
+            : 'Descripción no disponible por el momento. Te invitamos a explorar las páginas de esta edición.';
         startReadingBtn.href = urlVisor;
+
+        if (previewBadge) {
+            previewBadge.textContent = anio ? `Revista Académica • ${anio}` : 'Revista Académica';
+        }
+
+        // Bloquear scroll del fondo para evitar saltos y dobles scrolls en móviles
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+
+        // Resetear desplazamientos internos del modal
+        previewContainer.scrollTop = 0;
+        const detailsBody = previewContainer.querySelector('.preview-details-body');
+        if (detailsBody) detailsBody.scrollTop = 0;
+        const previewContent = previewContainer.querySelector('.preview-content');
+        if (previewContent) previewContent.scrollTop = 0;
 
         const cerrarPreview = () => {
             previewContainer.style.display = 'none';
+            previewContainer.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
             document.removeEventListener('keydown', handleEscape);
         };
         const handleEscape = (e) => {
             if (e.key === 'Escape') cerrarPreview();
         };
 
-        document.getElementById('preview-cerrar').onclick = cerrarPreview;
+        const btnCerrar = document.getElementById('preview-cerrar');
+        if (btnCerrar) {
+            btnCerrar.onclick = (e) => {
+                e.stopPropagation();
+                cerrarPreview();
+            };
+        }
+        
         previewContainer.onclick = (e) => {
             if (e.target === previewContainer) cerrarPreview();
         };
 
         document.addEventListener('keydown', handleEscape);
+        previewContainer.setAttribute('aria-hidden', 'false');
         previewContainer.style.display = 'flex';
         setTimeout(() => previewContainer.style.opacity = '1', 10);
     }
