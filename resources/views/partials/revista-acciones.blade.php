@@ -21,7 +21,10 @@
     @if($revista->estaProcesada())
         <form action="{{ route('admin.revistas.reprocesar', $revista) }}"
               method="POST"
-              onsubmit="return confirm('¿Reprocesar el PDF de esta revista?')">
+              class="form-reprocesar-revista"
+              data-reprocesar-form
+              data-revista-id="{{ $revista->id }}"
+              data-revista-titulo="{{ $revista->titulo }}">
             @csrf
             <button type="submit"
                     class="rev-accion reprocesar action-link reprocess"
@@ -47,7 +50,10 @@
 
         <form action="{{ url('/admin/revistas/' . $revista->id) }}"
               method="POST"
-              onsubmit="return confirm('¿Eliminar esta revista permanentemente?')">
+              class="form-eliminar-revista"
+              data-eliminar-form
+              data-revista-id="{{ $revista->id }}"
+              data-revista-titulo="{{ $revista->titulo }}">
             @csrf
             @method('DELETE')
             <button type="submit"

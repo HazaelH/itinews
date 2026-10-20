@@ -260,6 +260,12 @@ class RevistaController extends Controller
     public function reprocesar(Revista $revista)
     {
         if (Auth::user()->role !== 'admin') {
+            if (request()->ajax() || request()->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'No tienes permisos para reprocesar revistas.'
+                ], 403);
+            }
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permisos para reprocesar revistas.');
         }
@@ -285,12 +291,29 @@ class RevistaController extends Controller
             ProcesarPdfJob::dispatch($revista);
             $this->asegurarEjecucionQueue();
 
+            if (request()->ajax() || request()->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'revista_id' => $revista->id,
+                    'redirect_url' => route('revistas.show', $revista),
+                    'mensaje' => 'Reprocesamiento iniciado con éxito.'
+                ]);
+            }
+
             // 4. Redirigir a la vista de progreso
             return redirect()->route('revista.procesando', $revista) 
                 ->with('info', 'El PDF se está reprocesando...');
 
         } catch (\Throwable $e) {
             Log::error('Error reprocesando revista: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+
+            if (request()->ajax() || request()->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Ocurrió un error al reprocesar el PDF. Por favor, intente nuevamente.'
+                ], 500);
+            }
+
             return back()->with('error', 'Ocurrió un error al reprocesar el PDF. Por favor, intente nuevamente.');
         }
     }

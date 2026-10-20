@@ -1,93 +1,91 @@
 <x-app-layout>
-    <div class="dashboard-container">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="dashboard-table">
-                <div class="dashboard-table-header">
-                    <div>
-                        <h3>Procesando Revista</h3>
-                        <p class="text-white opacity-90">Convirtiendo PDF a imágenes...</p>
+    <div class="admin-layout-wrapper">
+        <div class="progreso-vista-container">
+            <div class="progreso-vista-card">
+                <input type="hidden" id="revista-id" value="{{ $revista->id }}">
+
+                <header class="progreso-vista-head">
+                    <div class="upload-modal-badge {{ $revista->estaProcesada() ? 'badge-success' : ($revista->tieneError() ? 'badge-error' : '') }}" id="badgeProgreso">
+                        <i class="fas {{ $revista->estaProcesada() ? 'fa-check' : ($revista->tieneError() ? 'fa-triangle-exclamation' : 'fa-rotate fa-spin') }}" id="iconoProgreso"></i>
                     </div>
-                </div>
+                    <div class="upload-modal-titles" style="margin-top: 14px; text-align: center;">
+                        <h3 id="tituloProgreso">{{ $revista->titulo }}</h3>
+                        <span class="fondo-modal-sub" id="subtituloProgreso">
+                            {{ $revista->estaProcesada() ? 'Procesamiento completado con éxito.' : 'Procesando páginas en Alta Resolución...' }}
+                        </span>
+                    </div>
+                </header>
 
-                <div class="p-6">
-                    <div id="progreso-container">
-                        <div class="text-center">
-                            <input type="hidden" id="revista-id" value="{{ $revista->id }}">
-                            
-                            <div class="mb-6">
-                                <div class="progress-bar-container" style="height: 1.5rem;">
-                                    <div id="barra-progreso" 
-                                         class="progress-bar-fill" 
-                                         style="width: 0%"></div>
-                                </div>
-                                
-                                <div class="flex justify-between text-sm text-gray-600 mb-2 mt-3">
-                                    <span id="porcentaje" class="font-semibold text-primary">0%</span>
-                                    <span id="contador-paginas" class="font-medium text-primary">0/0 páginas</span>
-                                </div>
-                            </div>
+                <div class="progreso-vista-body">
+                    <!-- Barra de progreso -->
+                    <div class="upload-progress-track">
+                        <div class="upload-progress-fill" id="barra-progreso" style="width: {{ $revista->progreso }}%;"></div>
+                    </div>
 
-                            <div class="mb-6">
-                                <div id="estado" class="text-lg font-semibold text-primary mb-2">Iniciando procesamiento...</div>
-                                <div id="detalles" class="text-sm text-light">
-                                    Preparando la conversión de páginas...
-                                </div>
-                            </div>
+                    <!-- Métricas -->
+                    <div class="upload-progress-metrics">
+                        <span class="upload-progress-status" id="estado">
+                            {{ $revista->estaProcesada() ? 'Completado' : 'Iniciando procesamiento...' }}
+                        </span>
+                        <span class="upload-progress-percent" id="porcentaje">{{ $revista->progreso }}%</span>
+                    </div>
 
-                            <div class="info-card mb-6">
-                                <h3>Información de la Revista</h3>
-                                <p><strong>Título:</strong> {{ $revista->titulo }}</p>
-                                <p><strong>Fecha:</strong> {{ \Carbon\Carbon::parse($revista->fecha_publicacion)->format('d/m/Y') }}</p>
-                            </div>
+                    <div class="upload-progress-detail">
+                        <span id="contador-paginas">{{ $revista->paginas()->count() }}/{{ $revista->total_paginas }} páginas</span>
+                    </div>
 
-                            <div id="completado" class="hidden mt-6 p-6 info-card" style="background: linear-gradient(135deg, rgba(34, 91, 78, 0.2), rgba(34, 91, 78, 0.1)); border-color: var(--primary);">
-                                <div class="flex items-center justify-center mb-4">
-                                    <svg class="w-8 h-8 mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                    </svg>
-                                    <p class="font-semibold text-xl text-primary">¡Procesamiento completado!</p>
-                                </div>
-                                <p class="text-primary mb-4 text-lg">La revista está lista para ser visualizada.</p>
-                                <div class="mt-4 flex space-x-3 justify-center">
-                                    <a href="{{ route('revistas.show', $revista) }}" 
-                                       class="btn-primary">
-                                        Ver Revista
-                                    </a>
-                                    <a href="{{ route('dashboard') }}" 
-                                       class="btn-secondary">
-                                        Volver al Dashboard
-                                    </a>
-                                </div>
-                            </div>
+                    <div id="detalles" style="font-size: 0.85rem; color: #64748b; margin-top: 6px;">
+                        {{ $revista->estaProcesada() ? 'Todas las páginas han sido convertidas exitosamente' : 'Preparando la conversión de páginas...' }}
+                    </div>
 
-                            <div id="error" class="hidden mt-6 p-6" style="background: linear-gradient(135deg, rgba(105, 28, 50, 0.2), rgba(105, 28, 50, 0.1)); border: 2px solid var(--dark); border-radius: 15px;">
-                                <div class="flex items-center justify-center mb-4">
-                                    <svg class="w-8 h-8 mr-3 text-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <p class="font-semibold text-xl text-dark">Error en el procesamiento</p>
-                                </div>
-                                <p class="text-dark mb-4 text-lg" id="mensaje-error">Ha ocurrido un error al procesar la revista.</p>
-                                <div class="mt-4 flex justify-center">
-                                    <a href="{{ route('dashboard') }}" 
-                                       class="btn" style="background-color: var(--dark); color: white; border-color: var(--dark);">
-                                        Volver al Dashboard
-                                    </a>
-                                </div>
-                            </div>
+                    <!-- Información de la revista -->
+                    <div class="progreso-info-card">
+                        <div><strong>Título:</strong> {{ $revista->titulo }}</div>
+                        <div style="margin-top: 4px;"><strong>Fecha de publicación:</strong> {{ \Carbon\Carbon::parse($revista->fecha_publicacion)->format('d/m/Y') }}</div>
+                    </div>
 
-                            <div id="spinner" class="mt-6">
-                                <div class="flex justify-center items-center">
-                                    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
-                                    <span class="ml-3 text-primary font-semibold text-lg">Procesando...</span>
-                                </div>
-                            </div>
+                    <!-- Estado Completado (Centrado) -->
+                    <div id="completado" class="{{ $revista->estaProcesada() ? '' : 'hidden' }} progreso-completado-box">
+                        <div class="progreso-completado-icon">
+                            <i class="fas fa-check"></i>
                         </div>
+                        <h4>¡Procesamiento completado al 100%!</h4>
+                        <p>La revista ha sido optimizada y está lista para su lectura.</p>
+                        <div class="progreso-acciones">
+                            <a href="{{ route('revistas.show', $revista) }}" class="btn-panel primary">
+                                <i class="far fa-eye"></i> Ver Revista
+                            </a>
+                            <a href="{{ route('dashboard') }}" class="btn-panel ghost">
+                                <i class="fas fa-table-list"></i> Volver al Dashboard
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Estado Error -->
+                    <div id="error" class="{{ $revista->tieneError() ? '' : 'hidden' }} progreso-error-box" style="background: #fef2f2; border: 1.5px solid #ef4444; border-radius: 16px; padding: 24px; margin-top: 1.5rem; text-align: center;">
+                        <div style="width: 56px; height: 56px; border-radius: 50%; background: #ef4444; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin: 0 auto 12px;">
+                            <i class="fas fa-triangle-exclamation"></i>
+                        </div>
+                        <h4 style="margin: 0 0 6px; font-size: 1.25rem; font-weight: 700; color: #991b1b;">Ocurrió un inconveniente</h4>
+                        <p style="margin: 0 0 16px; color: #b91c1c; font-size: 0.95rem;" id="mensaje-error">Ha ocurrido un error al procesar las páginas de la revista.</p>
+                        <div class="progreso-acciones">
+                            <a href="{{ route('dashboard') }}" class="btn-panel ghost">
+                                <i class="fas fa-arrow-left"></i> Volver al Dashboard
+                            </a>
+                        </div>
+                    </div>
+
+                    <div id="spinner" class="{{ ($revista->estaProcesada() || $revista->tieneError()) ? 'hidden' : '' }}" style="margin-top: 1.5rem;">
+                        <span style="font-size: 0.9rem; color: #64748b; font-weight: 500;">
+                            <i class="fas fa-circle-notch fa-spin"></i> Actualizando progreso automáticamente...
+                        </span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="{{ asset('js/progreso-revista.js') }}"></script>
+    @push('scripts')
+    <script src="{{ asset('js/progreso-revista.js') }}?v={{ file_exists(public_path('js/progreso-revista.js')) ? filemtime(public_path('js/progreso-revista.js')) : time() }}"></script>
+    @endpush
 </x-app-layout>

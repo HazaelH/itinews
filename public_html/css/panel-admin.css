@@ -3650,4 +3650,107 @@
     flex-shrink: 0;
 }
 
+/* ==========================================================================
+   VISTA INDEPENDIENTE DE PROGRESO DE REVISTA (/revista/{id}/procesando)
+   ========================================================================== */
+.progreso-vista-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 160px);
+    padding: 2.5rem 1rem;
+    width: 100%;
+}
+
+.progreso-vista-card {
+    max-width: 580px;
+    width: 100%;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    text-align: center;
+}
+
+.progreso-vista-head {
+    padding: 28px 24px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.progreso-vista-body {
+    padding: 28px 24px;
+    text-align: center;
+}
+
+.progreso-info-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin: 1.25rem 0;
+    text-align: left;
+    font-size: 0.9rem;
+    color: #475569;
+}
+
+.progreso-info-card strong {
+    color: #1e293b;
+}
+
+.progreso-completado-box {
+    background: linear-gradient(135deg, rgba(31, 91, 79, 0.08) 0%, rgba(16, 185, 129, 0.12) 100%);
+    border: 1.5px solid #10b981;
+    border-radius: 16px;
+    padding: 24px;
+    margin-top: 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.progreso-completado-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #10b981;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    margin: 0 auto 12px;
+    box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
+}
+
+.progreso-completado-box h4 {
+    margin: 0 0 6px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #065f46;
+}
+
+.progreso-completado-box p {
+    margin: 0 0 16px;
+    color: #047857;
+    font-size: 0.95rem;
+}
+
+.progreso-acciones {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+
 

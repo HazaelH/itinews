@@ -251,8 +251,10 @@
         </div>
     </div>
 
+    @include('partials.dashboard-modales')
+
     @push('scripts')
-    <script src="{{ asset('js/dashboard-revistas.js') }}" defer></script>
+    <script src="{{ asset('js/dashboard-revistas.js') }}?v={{ file_exists(public_path('js/dashboard-revistas.js')) ? filemtime(public_path('js/dashboard-revistas.js')) : time() }}" defer></script>
     @endpush
 
     @if(auth()->user()->isAdmin())

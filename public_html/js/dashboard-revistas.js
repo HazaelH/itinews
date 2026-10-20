@@ -301,6 +301,265 @@
             timer = window.setInterval(pollProgreso, 4000);
         }
 
+        // -------------------------------------------------------------
+        // Modales de Confirmación (Eliminar y Reprocesar) y Progreso
+        // -------------------------------------------------------------
+        var modalDelete = document.getElementById('dashboardConfirmDeleteModal');
+        var modalReprocess = document.getElementById('dashboardConfirmReprocessModal');
+        var modalProgreso = document.getElementById('dashboardModalProgresoReprocesar');
+
+        var formEliminarPendiente = null;
+        var formReprocesarPendiente = null;
+
+        // Modal Eliminación
+        if (modalDelete) {
+            var deleteTituloEl = document.getElementById('deleteModalRevistaTitulo');
+            var btnConfirmDelete = document.getElementById('btnConfirmDelete');
+
+            var cerrarModalDelete = function () {
+                modalDelete.hidden = true;
+                formEliminarPendiente = null;
+            };
+
+            Array.prototype.slice.call(modalDelete.querySelectorAll('[data-delete-cancel]')).forEach(function (btn) {
+                btn.addEventListener('click', cerrarModalDelete);
+            });
+
+            if (btnConfirmDelete) {
+                btnConfirmDelete.addEventListener('click', function () {
+                    if (formEliminarPendiente) {
+                        formEliminarPendiente.dataset.confirmado = '1';
+                        btnConfirmDelete.disabled = true;
+                        btnConfirmDelete.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Eliminando...';
+                        formEliminarPendiente.submit();
+                    }
+                });
+            }
+
+            document.addEventListener('submit', function (e) {
+                var form = e.target;
+                if (!form || !form.matches('[data-eliminar-form]')) return;
+                if (form.dataset.confirmado === '1') return;
+
+                e.preventDefault();
+                formEliminarPendiente = form;
+                if (deleteTituloEl) {
+                    deleteTituloEl.textContent = form.getAttribute('data-revista-titulo') || 'esta revista';
+                }
+                modalDelete.hidden = false;
+                if (btnConfirmDelete) btnConfirmDelete.focus();
+            });
+        }
+
+        // Modal Reprocesar
+        if (modalReprocess && modalProgreso) {
+            var reprocessTituloEl = document.getElementById('reprocessModalRevistaTitulo');
+            var btnConfirmReprocess = document.getElementById('btnConfirmReprocess');
+
+            var cerrarModalReprocess = function () {
+                modalReprocess.hidden = true;
+                formReprocesarPendiente = null;
+            };
+
+            Array.prototype.slice.call(modalReprocess.querySelectorAll('[data-reprocess-cancel]')).forEach(function (btn) {
+                btn.addEventListener('click', cerrarModalReprocess);
+            });
+
+            // Elementos del Modal de Progreso
+            var progBadge = document.getElementById('reprocessProgressBadge');
+            var progBadgeIcon = document.getElementById('reprocessProgressBadgeIcon');
+            var progTitle = document.getElementById('reprocessProgressTitle');
+            var progSub = document.getElementById('reprocessProgressSub');
+            var progFill = document.getElementById('reprocessProgressFill');
+            var progStatus = document.getElementById('reprocessProgressStatus');
+            var progPercent = document.getElementById('reprocessProgressPercent');
+            var progDetailText = document.getElementById('reprocessDetailText');
+            var stepPrep = document.getElementById('reprocessStepPrep');
+            var stepConvert = document.getElementById('reprocessStepConvert');
+            var stepFinish = document.getElementById('reprocessStepFinish');
+            var errorBox = document.getElementById('reprocessErrorBox');
+            var errorMsg = document.getElementById('reprocessErrorMsg');
+            var modalFooter = document.getElementById('reprocessModalFooter');
+            var closeBtn = document.getElementById('reprocessModalCloseBtn');
+
+            var pollTimer = null;
+            var isProcessing = false;
+
+            var warnBeforeUnload = function (ev) {
+                if (isProcessing) {
+                    ev.preventDefault();
+                    ev.returnValue = 'La revista se está reprocesando. ¿Seguro que deseas salir?';
+                    return ev.returnValue;
+                }
+            };
+
+            var mostrarErrorReproceso = function (mensaje) {
+                isProcessing = false;
+                window.removeEventListener('beforeunload', warnBeforeUnload);
+                if (pollTimer) {
+                    clearInterval(pollTimer);
+                    pollTimer = null;
+                }
+                if (progBadge) progBadge.className = 'upload-modal-badge badge-error';
+                if (progBadgeIcon) progBadgeIcon.className = 'fas fa-triangle-exclamation';
+                if (progTitle) progTitle.textContent = 'Ocurrió un inconveniente';
+                if (progSub) progSub.textContent = 'No se pudo completar el reprocesamiento.';
+                if (errorBox) errorBox.hidden = false;
+                if (errorMsg) errorMsg.textContent = mensaje || 'Error al reprocesar la revista.';
+                if (modalFooter) modalFooter.hidden = false;
+            };
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function () {
+                    modalProgreso.hidden = true;
+                    window.location.reload();
+                });
+            }
+
+            if (btnConfirmReprocess) {
+                btnConfirmReprocess.addEventListener('click', function () {
+                    var form = formReprocesarPendiente;
+                    if (!form) return;
+
+                    cerrarModalReprocess();
+
+                    var revistaId = form.getAttribute('data-revista-id');
+                    var revistaTitulo = form.getAttribute('data-revista-titulo') || 'la revista';
+
+                    // Inicializar Modal de Progreso
+                    isProcessing = true;
+                    window.addEventListener('beforeunload', warnBeforeUnload);
+
+                    modalProgreso.hidden = false;
+                    if (progBadge) progBadge.className = 'upload-modal-badge';
+                    if (progBadgeIcon) progBadgeIcon.className = 'fas fa-rotate fa-spin';
+                    if (progTitle) progTitle.textContent = 'Reprocesando: ' + revistaTitulo;
+                    if (progSub) progSub.textContent = 'Optimizando páginas WebP en alta resolución...';
+                    if (progFill) progFill.style.width = '0%';
+                    if (progPercent) progPercent.textContent = '0%';
+                    if (progStatus) progStatus.textContent = 'Iniciando limpieza y preparación...';
+                    if (progDetailText) progDetailText.textContent = 'Conectando con el motor de procesamiento...';
+
+                    if (stepPrep) stepPrep.className = 'upload-step active';
+                    if (stepConvert) stepConvert.className = 'upload-step';
+                    if (stepFinish) stepFinish.className = 'upload-step';
+
+                    if (errorBox) errorBox.hidden = true;
+                    if (modalFooter) modalFooter.hidden = true;
+
+                    // 1. Enviar petición AJAX para iniciar el reproceso
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', form.action, true);
+                    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                    xhr.setRequestHeader('Accept', 'application/json');
+
+                    xhr.addEventListener('load', function () {
+                        if (xhr.status >= 200 && xhr.status < 300) {
+                            var resp = null;
+                            try { resp = JSON.parse(xhr.responseText); } catch (e) {}
+                            if (resp && resp.success) {
+                                // Procesado con éxito
+                            } else {
+                                mostrarErrorReproceso((resp && resp.error) ? resp.error : 'No se pudo iniciar el reprocesamiento.');
+                            }
+                        } else {
+                            var errMsg = 'Ocurrió un error en el servidor al intentar reprocesar.';
+                            try {
+                                var errResp = JSON.parse(xhr.responseText);
+                                if (errResp.error) errMsg = errResp.error;
+                            } catch (e) {}
+                            mostrarErrorReproceso(errMsg);
+                        }
+                    });
+
+                    xhr.addEventListener('error', function () {
+                        mostrarErrorReproceso('Error de red al intentar reprocesar la revista.');
+                    });
+
+                    var formData = new FormData(form);
+                    xhr.send(formData);
+
+                    // 2. Iniciar Polling de progreso
+                    pollTimer = setInterval(function () {
+                        fetch('/revista/' + encodeURIComponent(revistaId) + '/progreso', {
+                            headers: {
+                                'Accept': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        })
+                            .then(function (r) { return r.ok ? r.json() : null; })
+                            .then(function (data) {
+                                if (!data) return;
+
+                                var total = data.total_paginas || 0;
+                                var procesadas = data.paginas_procesadas || 0;
+                                var pct = Math.round(data.progreso || 0);
+
+                                if (total > 0) {
+                                    if (stepPrep) stepPrep.className = 'upload-step done';
+                                    if (stepConvert) stepConvert.className = 'upload-step active';
+
+                                    if (progDetailText) {
+                                        progDetailText.textContent = 'Página ' + procesadas + ' de ' + total + ' páginas';
+                                    }
+                                    if (progStatus) {
+                                        progStatus.textContent = 'Optimizando página ' + Math.min(procesadas + 1, total) + '...';
+                                    }
+                                } else {
+                                    if (progStatus) {
+                                        progStatus.textContent = 'Limpiando páginas anteriores y preparando documento...';
+                                    }
+                                }
+
+                                if (progFill) progFill.style.width = pct + '%';
+                                if (progPercent) progPercent.textContent = pct + '%';
+
+                                if (data.completado) {
+                                    clearInterval(pollTimer);
+                                    pollTimer = null;
+                                    isProcessing = false;
+                                    window.removeEventListener('beforeunload', warnBeforeUnload);
+
+                                    if (stepConvert) stepConvert.className = 'upload-step done';
+                                    if (stepFinish) stepFinish.className = 'upload-step done';
+
+                                    if (progBadge) progBadge.className = 'upload-modal-badge badge-success';
+                                    if (progBadgeIcon) progBadgeIcon.className = 'fas fa-check';
+
+                                    if (progTitle) progTitle.textContent = '¡Revista lista!';
+                                    if (progSub) progSub.textContent = 'El PDF se ha reprocesado y optimizado con éxito.';
+                                    if (progStatus) progStatus.textContent = 'Actualizando el listado...';
+                                    if (progFill) progFill.style.width = '100%';
+                                    if (progPercent) progPercent.textContent = '100%';
+
+                                    setTimeout(function () {
+                                        window.location.reload();
+                                    }, 1400);
+                                } else if (data.error) {
+                                    mostrarErrorReproceso('Ocurrió un error durante la extracción y optimización de páginas.');
+                                }
+                            })
+                            .catch(function () {
+                                /* Fallo transitorio de red durante polling */
+                            });
+                    }, 1200);
+                });
+            }
+
+            document.addEventListener('submit', function (e) {
+                var form = e.target;
+                if (!form || !form.matches('[data-reprocesar-form]')) return;
+
+                e.preventDefault();
+                formReprocesarPendiente = form;
+                if (reprocessTituloEl) {
+                    reprocessTituloEl.textContent = form.getAttribute('data-revista-titulo') || 'esta revista';
+                }
+                modalReprocess.hidden = false;
+                if (btnConfirmReprocess) btnConfirmReprocess.focus();
+            });
+        }
+
         sincronizarVista();
         aplicar();
     });

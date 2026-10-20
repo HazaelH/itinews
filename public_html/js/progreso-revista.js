@@ -89,16 +89,25 @@ class ProgresoRevista {
         const spinner = document.getElementById('spinner');
         const completado = document.getElementById('completado');
         const error = document.getElementById('error');
+        const badge = document.getElementById('badgeProgreso');
+        const icono = document.getElementById('iconoProgreso');
+        const subtitulo = document.getElementById('subtituloProgreso');
         
         if (data.completado) {
             this.ocultarElemento(spinner);
             this.mostrarElemento(completado);
             this.ocultarElemento(error);
+            if (badge) badge.className = 'upload-modal-badge badge-success';
+            if (icono) icono.className = 'fas fa-check';
+            if (subtitulo) subtitulo.textContent = 'Procesamiento completado con éxito.';
             this.detener();
         } else if (data.error) {
             this.ocultarElemento(spinner);
             this.ocultarElemento(completado);
             this.mostrarElemento(error);
+            if (badge) badge.className = 'upload-modal-badge badge-error';
+            if (icono) icono.className = 'fas fa-triangle-exclamation';
+            if (subtitulo) subtitulo.textContent = 'Ocurrió un error durante el procesamiento.';
             this.detener();
         } else if (data.estado === 'procesando') {
             this.mostrarElemento(spinner);
