@@ -682,19 +682,23 @@
            PREVIEW MODAL
         ============================================ */
         #preview-container {
-            position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(18, 20, 24, 0.88);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            backdrop-filter: blur(12px);
+            position: fixed !important;
+            inset: 0 !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100dvh !important;
+            background: rgba(15, 20, 25, 0.75) !important;
+            z-index: 999999 !important;
+            display: none;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 1.5rem !important;
+            overflow-y: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            box-sizing: border-box !important;
             animation: fadeIn 0.3s ease;
         }
 
@@ -709,14 +713,14 @@
             padding: 2.25rem;
             max-width: 820px;
             width: 100%;
-            max-height: min(90vh, 760px);
-            position: relative;
+            max-height: min(88dvh, 760px);
+            position: relative !important;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
             border: 2px solid var(--verde);
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            margin: auto;
+            margin: auto !important;
             animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -993,81 +997,100 @@
                 gap: 1.5rem;
             }
             #preview-container {
-                padding: 0.75rem;
-                align-items: center;
+                padding: 1rem !important;
+                display: none;
+                align-items: center !important;
+                justify-content: center !important;
+                position: fixed !important;
+                inset: 0 !important;
+                width: 100vw !important;
+                height: 100dvh !important;
+                z-index: 999999 !important;
             }
             #preview-modal {
-                padding: 1.25rem 1rem 1rem 1rem;
-                border-radius: 20px;
-                max-height: calc(100dvh - 1.5rem);
-                height: auto;
-                width: 100%;
-                max-width: 480px;
-                margin: auto;
+                padding: 1.25rem 1rem 1rem 1rem !important;
+                border-radius: 20px !important;
+                max-height: 82dvh !important;
+                height: auto !important;
+                width: 92% !important;
+                max-width: 420px !important;
+                margin: auto !important;
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5) !important;
+                display: flex !important;
+                flex-direction: column !important;
+                overflow: hidden !important;
             }
             .preview-content {
-                display: flex;
-                flex-direction: column;
-                gap: 0.85rem;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-                max-height: calc(100dvh - 3.5rem);
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0.75rem !important;
+                overflow-y: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+                max-height: calc(82dvh - 2.5rem) !important;
             }
             .preview-cover {
-                min-height: auto;
-                max-height: 180px;
-                height: 180px;
-                width: 130px;
-                margin: 0 auto;
-                flex-shrink: 0;
-                background: transparent;
-                border: none;
-                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+                min-height: auto !important;
+                max-height: 150px !important;
+                height: 150px !important;
+                width: 115px !important;
+                margin: 0 auto !important;
+                flex-shrink: 0 !important;
+                background: transparent !important;
+                border: none !important;
+                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25) !important;
             }
             .preview-cover img {
-                max-height: 180px;
-                border-radius: 8px;
-                object-fit: contain;
+                max-height: 150px !important;
+                border-radius: 8px !important;
+                object-fit: contain !important;
+            }
+            .preview-details {
+                display: flex !important;
+                flex-direction: column !important;
+                overflow: hidden !important;
+                text-align: center !important;
             }
             .preview-header-area {
-                margin-bottom: 0.5rem;
-                padding-right: 2.25rem;
-                text-align: left;
+                margin-bottom: 0.4rem !important;
+                padding-right: 2.25rem !important;
+                text-align: center !important;
             }
             .preview-badge {
-                font-size: 0.7rem;
-                padding: 0.25rem 0.6rem;
-                margin-bottom: 0.35rem;
+                font-size: 0.7rem !important;
+                padding: 0.25rem 0.6rem !important;
+                margin-bottom: 0.35rem !important;
             }
             .preview-details h2 {
-                font-size: 1.3rem;
-                line-height: 1.25;
+                font-size: 1.25rem !important;
+                line-height: 1.25 !important;
+                text-align: center !important;
             }
             .preview-details-body {
-                max-height: 150px;
-                margin-bottom: 0.75rem;
-                padding-right: 0.35rem;
+                max-height: 95px !important;
+                overflow-y: auto !important;
+                margin-bottom: 0.5rem !important;
+                padding-right: 0.35rem !important;
             }
             .preview-details p {
-                font-size: 0.92rem;
-                line-height: 1.55;
-                text-align: left;
+                font-size: 0.9rem !important;
+                line-height: 1.45 !important;
+                text-align: center !important;
             }
             .preview-details-footer {
-                padding-top: 0.5rem;
+                padding-top: 0.4rem !important;
             }
             .btn-leer {
-                width: 100%;
-                justify-content: center;
-                padding: 0.85rem 1.25rem;
-                font-size: 1rem;
+                width: 100% !important;
+                justify-content: center !important;
+                padding: 0.8rem 1.25rem !important;
+                font-size: 0.98rem !important;
             }
             .control-btn {
-                top: 0.65rem;
-                right: 0.65rem;
-                width: 34px;
-                height: 34px;
-                font-size: 0.95rem;
+                top: 0.65rem !important;
+                right: 0.65rem !important;
+                width: 36px !important;
+                height: 36px !important;
+                font-size: 0.95rem !important;
             }
             .scroll-top-btn {
                 bottom: 20px;

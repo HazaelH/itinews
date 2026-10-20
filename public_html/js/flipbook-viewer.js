@@ -81,9 +81,29 @@ class FlipbookViewer {
 
         this.flipbookElement = flipbookEl;
         this.revistaId = appContainer?.dataset.revistaId;
+        this.revistaTitulo = appContainer?.dataset.revistaTitulo || 'Revista ITINEWS';
+        this.revistaPortada = appContainer?.dataset.revistaPortada || '';
+        this.revistaAnio = appContainer?.dataset.revistaAnio || '';
 
         if (this.revistaId) {
             this.stats.revistasVistas.add(this.revistaId);
+            if (!this.stats.revistasDetalle) this.stats.revistasDetalle = {};
+            if (!this.stats.revistasDetalle[this.revistaId]) {
+                this.stats.revistasDetalle[this.revistaId] = {
+                    id: this.revistaId,
+                    titulo: this.revistaTitulo,
+                    portada: this.revistaPortada,
+                    anio: this.revistaAnio,
+                    tiempo: 0,
+                    paginas: 0,
+                    ultimaLectura: new Date().toISOString()
+                };
+            } else {
+                this.stats.revistasDetalle[this.revistaId].titulo = this.revistaTitulo;
+                if (this.revistaPortada) this.stats.revistasDetalle[this.revistaId].portada = this.revistaPortada;
+                if (this.revistaAnio) this.stats.revistasDetalle[this.revistaId].anio = this.revistaAnio;
+                this.stats.revistasDetalle[this.revistaId].ultimaLectura = new Date().toISOString();
+            }
             this.guardarEstadisticasLS();
             this.sincronizarConManager();
         }
@@ -180,6 +200,10 @@ class FlipbookViewer {
                     window.flipbookManager.estadisticas.tiempoLectura || 0,
                     this.stats.tiempoLectura
                 );
+                window.flipbookManager.estadisticas.revistasDetalle = {
+                    ...(window.flipbookManager.estadisticas.revistasDetalle || {}),
+                    ...(this.stats.revistasDetalle || {})
+                };
                 window.flipbookManager.guardarEnLocalStorage();
             }
         }
@@ -581,6 +605,7 @@ class FlipbookViewer {
                     paginasLeidas: parsed.paginasLeidas || 0,
                     tiempoLectura: parsed.tiempoLectura || 0,
                     revistasVistas: new Set(parsed.revistasVistas || []),
+                    revistasDetalle: parsed.revistasDetalle || {},
                     historial: parsed.historial || []
                 };
             }
@@ -621,6 +646,26 @@ class FlipbookViewer {
         const deltaSeconds = (now - this.lastTimeCheck) / 1000;
         if (deltaSeconds > 0) {
             this.stats.tiempoLectura += deltaSeconds;
+
+            if (!this.stats.revistasDetalle) this.stats.revistasDetalle = {};
+            if (!this.stats.revistasDetalle[this.revistaId]) {
+                this.stats.revistasDetalle[this.revistaId] = {
+                    id: this.revistaId,
+                    titulo: this.revistaTitulo || 'Revista ITINEWS',
+                    portada: this.revistaPortada || '',
+                    anio: this.revistaAnio || '',
+                    tiempo: 0,
+                    paginas: 0,
+                    ultimaLectura: new Date().toISOString()
+                };
+            }
+            this.stats.revistasDetalle[this.revistaId].tiempo = (this.stats.revistasDetalle[this.revistaId].tiempo || 0) + deltaSeconds;
+            this.stats.revistasDetalle[this.revistaId].paginas = Math.max(
+                this.stats.revistasDetalle[this.revistaId].paginas || 0,
+                this.paginasVistasSesion ? this.paginasVistasSesion.size : 1
+            );
+            this.stats.revistasDetalle[this.revistaId].ultimaLectura = new Date().toISOString();
+
             this.lastTimeCheck = now;
         }
         this.guardarEstadisticasLS();

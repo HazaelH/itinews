@@ -4,6 +4,9 @@
 <div id="app-container" 
      class="visor-container" 
      data-revista-id="{{ $revista->id }}"
+     data-revista-titulo="{{ $revista->titulo }}"
+     data-revista-portada="{{ asset('storage/' . $revista->ruta_portada) }}"
+     data-revista-anio="{{ \Carbon\Carbon::parse($revista->fecha_publicacion)->format('Y') }}"
      data-images="{{ json_encode($revista->paginas->map(fn($p) => asset('storage/' . $p->ruta_imagen))) }}">
     
     <header class="visor-header">

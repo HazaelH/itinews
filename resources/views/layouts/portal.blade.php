@@ -276,44 +276,313 @@
             color: #fff !important;
         }
 
-        /* Main content transparente para ver el fondo */
+        /* Main content transparente para ver el fondo sin capas oscuras */
         .main-content {
             background-color: transparent !important; 
             background-image: none !important; 
+            transform: none !important;
+        }
+
+        .main-content::before,
+        .main-content:not(.all-bg)::before {
+            display: none !important;
+            content: none !important;
         }
 
         /* Tarjetas y contenedores con efecto vidrio */
         .page-header, 
         .tarjeta-seccion, 
         .stat-card,
-        .container .white-box { 
-            background: rgba(255, 255, 255, 0.90) !important; 
+        .container .white-box,
+        .seccion-header { 
+            background: rgba(255, 255, 255, 0.94) !important; 
             backdrop-filter: blur(15px); 
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15) !important;
-            border-radius: 15px !important;
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.12) !important;
+            border-radius: 16px !important;
             margin-bottom: 20px !important;
         }
 
-        .page-header {
+        .page-header,
+        .seccion-header {
             margin-top: 20px;
             width: 95%;
             margin-left: auto;
             margin-right: auto;
+            padding: 1.5rem 2rem !important;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .seccion-titulo {
+            font-size: 1.85rem !important;
+            font-weight: 800 !important;
+            color: #164236 !important; /* Verde oscuro ITINEWS con excelente legibilidad */
+            margin: 0 !important;
+            letter-spacing: -0.02em;
         }
         
         /* Modo oscuro */
         body.dark-mode .sidebar,
         body.dark-mode .page-header,
+        body.dark-mode .seccion-header,
         body.dark-mode .tarjeta-seccion,
         body.dark-mode .stat-card {
-            background: rgba(30, 30, 30, 0.85) !important;
+            background: rgba(30, 30, 30, 0.88) !important;
             color: white !important;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35) !important;
+        }
+
+        body.dark-mode .seccion-titulo {
+            color: #f8f2ee !important;
         }
 
         body.dark-mode .sidebar-header h2 {
             color: #fff !important;
+        }
+
+        /* ============================================
+           ESTADÍSTICAS TRANSFORMADAS
+        ============================================ */
+        .stats-dashboard {
+            width: 95%;
+            margin: 0 auto 40px auto;
+        }
+        .stats-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .stats-kpi-card {
+            background: rgba(255, 255, 255, 0.94) !important;
+            backdrop-filter: blur(14px) !important;
+            -webkit-backdrop-filter: blur(14px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.7) !important;
+            border-radius: 16px !important;
+            padding: 20px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 16px !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06) !important;
+            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+        }
+        .stats-kpi-card:hover {
+            transform: translateY(-4px) !important;
+            box-shadow: 0 12px 30px rgba(31, 91, 79, 0.15) !important;
+        }
+        .stats-kpi-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .stats-kpi-icon.icon-vistas { background: linear-gradient(135deg, #1f5b4f, #2a7a6a); }
+        .stats-kpi-icon.icon-tiempo { background: linear-gradient(135deg, #7a1830, #9a1f3d); }
+        .stats-kpi-icon.icon-paginas { background: linear-gradient(135deg, #2a7a6a, #164236); }
+        .stats-kpi-icon.icon-favoritos { background: linear-gradient(135deg, #c42040, #7a1830); }
+
+        .stats-kpi-info h4 {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #4b5563;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .stats-kpi-info .kpi-num {
+            margin: 4px 0 0 0;
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #164236;
+            line-height: 1.1;
+        }
+
+        .stats-spotlight-card {
+            background: rgba(255, 255, 255, 0.94) !important;
+            backdrop-filter: blur(14px) !important;
+            -webkit-backdrop-filter: blur(14px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.7) !important;
+            border-left: 6px solid #1f5b4f !important;
+            border-radius: 16px !important;
+            padding: 22px !important;
+            margin-bottom: 25px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 24px !important;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08) !important;
+        }
+        .stats-spotlight-cover {
+            width: 100px;
+            height: 135px;
+            border-radius: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+        }
+        .stats-spotlight-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .stats-spotlight-info {
+            flex: 1;
+        }
+        .stats-spotlight-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #1f5b4f;
+            color: #fff;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stats-section-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #164236;
+            margin: 30px 0 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-revistas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stats-revista-card {
+            background: rgba(255, 255, 255, 0.94) !important;
+            backdrop-filter: blur(14px) !important;
+            -webkit-backdrop-filter: blur(14px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.7) !important;
+            border-radius: 16px !important;
+            padding: 16px !important;
+            display: flex !important;
+            gap: 16px !important;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06) !important;
+            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+        }
+        .stats-revista-card:hover {
+            transform: translateY(-4px) !important;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12) !important;
+        }
+        .stats-revista-thumb {
+            width: 80px;
+            height: 110px;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .stats-revista-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .stats-revista-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-width: 0;
+        }
+        .stats-revista-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1e1f23;
+            margin: 0 0 6px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .stats-revista-meta {
+            font-size: 0.82rem;
+            color: #4b5563;
+            margin-bottom: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .stats-revista-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .stats-btn-continuar {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #1f5b4f, #164236);
+            color: #fff !important;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 7px 14px;
+            border-radius: 20px;
+            transition: all 0.25s ease;
+            align-self: flex-start;
+        }
+        .stats-btn-continuar:hover {
+            background: linear-gradient(135deg, #2a7a6a, #1f5b4f);
+            transform: translateX(3px);
+            color: #fff !important;
+        }
+
+        body.dark-mode .stats-kpi-card,
+        body.dark-mode .stats-spotlight-card,
+        body.dark-mode .stats-revista-card {
+            background: rgba(30, 30, 30, 0.88) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        body.dark-mode .stats-kpi-info h4,
+        body.dark-mode .stats-revista-meta {
+            color: #cbd5e1 !important;
+        }
+        body.dark-mode .stats-kpi-info .kpi-num,
+        body.dark-mode .stats-section-title,
+        body.dark-mode .stats-revista-title {
+            color: #f8f2ee !important;
+        }
+        body.dark-mode .stats-spotlight-info h3 {
+            color: #f8f2ee !important;
+        }
+
+        @media (max-width: 600px) {
+            .stats-spotlight-card {
+                flex-direction: column !important;
+                text-align: center;
+            }
+            .stats-spotlight-cover {
+                margin: 0 auto;
+            }
+            .stats-spotlight-badge {
+                margin: 0 auto 10px auto;
+            }
+            .stats-btn-continuar {
+                align-self: center;
+                width: 100%;
+            }
         }
     </style>
 </head>

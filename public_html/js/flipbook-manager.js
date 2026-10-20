@@ -9,7 +9,8 @@ class FlipbookManager {
             paginasLeidas: 0,
             tiempoLectura: 0,
             ultimaVisita: null,
-            historial: []
+            historial: [],
+            revistasDetalle: {}
         };
 
         this.seccionesContainer = document.getElementById('secciones-especiales');
@@ -280,10 +281,28 @@ class FlipbookManager {
     // REGISTRO DE VISITAS
     // ============================================
     registrarVisita(revistaId) {
-        this.estadisticas.revistasVistas.add(revistaId);
+        this.estadisticas.revistasVistas.add(revistaId.toString());
         this.estadisticas.ultimaVisita = new Date().toISOString();
         
         const revista = this.revistasData.find(r => r.id == revistaId);
+        
+        if (!this.estadisticas.revistasDetalle) {
+            this.estadisticas.revistasDetalle = {};
+        }
+        
+        const prev = this.estadisticas.revistasDetalle[revistaId.toString()] || {};
+        this.estadisticas.revistasDetalle[revistaId.toString()] = {
+            id: revistaId.toString(),
+            titulo: revista?.titulo || prev.titulo || 'Revista ITINEWS',
+            portada: revista?.portada || prev.portada || '',
+            urlVisor: revista?.urlVisor || prev.urlVisor || `/revistas/${revistaId}`,
+            anio: revista?.anio || prev.anio || '',
+            tiempo: prev.tiempo || 0,
+            paginas: prev.paginas || 0,
+            visitas: (prev.visitas || 0) + 1,
+            ultimaLectura: new Date().toISOString()
+        };
+
         if (revista) {
             if (this.estadisticas.historial.length === 0 || this.estadisticas.historial[0].revista !== revista.titulo) {
                 this.estadisticas.historial.unshift({
@@ -311,7 +330,8 @@ class FlipbookManager {
             paginasLeidas: 0,
             tiempoLectura: 0,
             ultimaVisita: null,
-            historial: []
+            historial: [],
+            revistasDetalle: {}
         };
         this.guardarEnLocalStorage();
         
@@ -519,56 +539,204 @@ class FlipbookManager {
         `;
     }
 
+    formatearTiempoLectura(segundos) {
+        if (!segundos || segundos <= 0) return '0 min';
+        const s = Math.round(segundos);
+        const h = Math.floor(s / 3600);
+        const m = Math.floor((s % 3600) / 60);
+        const seg = s % 60;
+        if (h > 0) {
+            return `${h}h ${m}m`;
+        }
+        if (m > 0) {
+            return `${m} min`;
+        }
+        return `${seg} seg`;
+    }
+
     getContenidoEstadisticas() {
         const favoritosCount = document.getElementById('favoritosCount')?.textContent || '0';
-        const horas = Math.floor(this.estadisticas.tiempoLectura / 3600);
-        const minutos = Math.floor((this.estadisticas.tiempoLectura % 3600) / 60);
-        const tiempoFormato = horas > 0 ? `${horas}h ${minutos}m` : `${minutos}m`;
-        
+        const tiempoTotalFormato = this.formatearTiempoLectura(this.estadisticas.tiempoLectura);
+        const totalVistas = this.estadisticas.revistasVistas ? this.estadisticas.revistasVistas.size : 0;
+
+        // Consolidar lista de revistas leídas combinando revistasDetalle y revistasData
+        const detalleMap = this.estadisticas.revistasDetalle || {};
+        const revistasIds = new Set([
+            ...(this.estadisticas.revistasVistas ? [...this.estadisticas.revistasVistas] : []),
+            ...Object.keys(detalleMap)
+        ]);
+
+        const listaRevistasLeidas = [];
+        revistasIds.forEach(id => {
+            const dataGaleria = this.revistasData.find(r => r.id == id);
+            const detalle = detalleMap[id] || {};
+            listaRevistasLeidas.push({
+                id: id,
+                titulo: dataGaleria?.titulo || detalle.titulo || 'Revista Académica',
+                portada: dataGaleria?.portada || detalle.portada || '',
+                urlVisor: dataGaleria?.urlVisor || detalle.urlVisor || `/revistas/${id}`,
+                anio: dataGaleria?.anio || detalle.anio || '',
+                tiempo: detalle.tiempo || 0,
+                paginas: detalle.paginas || 0,
+                visitas: detalle.visitas || 1,
+                ultimaLectura: detalle.ultimaLectura || null
+            });
+        });
+
+        // Ordenar por tiempo de lectura descendente (la que más tiempo dedicó primero)
+        listaRevistasLeidas.sort((a, b) => (b.tiempo || 0) - (a.tiempo || 0));
+
+        // Revista más leída
+        const topRevista = (listaRevistasLeidas.length > 0 && (listaRevistasLeidas[0].tiempo > 0 || listaRevistasLeidas[0].visitas > 1))
+            ? listaRevistasLeidas[0]
+            : null;
+
+        // Renderizar lista o empty state
+        let revistasCardsHTML = '';
+        if (listaRevistasLeidas.length > 0) {
+            revistasCardsHTML = listaRevistasLeidas.map(rev => {
+                const tiempoRevista = this.formatearTiempoLectura(rev.tiempo);
+                let fechaStr = 'Recientemente';
+                if (rev.ultimaLectura) {
+                    try {
+                        const d = new Date(rev.ultimaLectura);
+                        fechaStr = d.toLocaleDateString('es-MX', { day: 'numeric', month: 'short', year: 'numeric' });
+                    } catch(e) {}
+                }
+
+                return `
+                    <div class="stats-revista-card">
+                        <div class="stats-revista-thumb">
+                            ${rev.portada 
+                                ? `<img src="${rev.portada}" alt="Portada de ${rev.titulo}">` 
+                                : `<div style="width:100%; height:100%; background: #1f5b4f; display:flex; align-items:center; justify-content:center; color:#fff;"><i class="fas fa-book"></i></div>`}
+                        </div>
+                        <div class="stats-revista-details">
+                            <div>
+                                <h4 class="stats-revista-title" title="${rev.titulo}">${rev.titulo}</h4>
+                                <div class="stats-revista-meta">
+                                    ${rev.anio ? `<span><i class="fas fa-calendar-alt"></i> Edición ${rev.anio}</span>` : ''}
+                                    <span><i class="fas fa-clock"></i> <strong>${tiempoRevista}</strong> dedicados</span>
+                                    <span><i class="fas fa-history"></i> Leída: ${fechaStr}</span>
+                                </div>
+                            </div>
+                            <a href="${rev.urlVisor}" class="stats-btn-continuar">
+                                <i class="fas fa-book-open"></i> Continuar Leyendo
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
         return `
             <div class="seccion-header">
-                <h2 class="seccion-titulo">Mis Estadísticas</h2>
+                <h2 class="seccion-titulo"><i class="fas fa-chart-line"></i> Mis Estadísticas de Lectura</h2>
                 <button class="btn-volver" onclick="flipbookManager.volverAGaleria()">
                     <i class="fas fa-arrow-left"></i>
                     Volver a Todas las Revistas
                 </button>
             </div>
-            <div class="tarjeta-seccion tarjeta-estadisticas">
-                <div class="tarjeta-icono">
-                    <i class="fas fa-chart-bar"></i>
+
+            <div class="stats-dashboard">
+                <!-- KPI CARDS -->
+                <div class="stats-summary-grid">
+                    <div class="stats-kpi-card">
+                        <div class="stats-kpi-icon icon-vistas">
+                            <i class="fas fa-book-reader"></i>
+                        </div>
+                        <div class="stats-kpi-info">
+                            <h4>Revistas Vistas</h4>
+                            <div class="kpi-num">${totalVistas}</div>
+                        </div>
+                    </div>
+
+                    <div class="stats-kpi-card">
+                        <div class="stats-kpi-icon icon-tiempo">
+                            <i class="fas fa-hourglass-half"></i>
+                        </div>
+                        <div class="stats-kpi-info">
+                            <h4>Tiempo Total</h4>
+                            <div class="kpi-num">${tiempoTotalFormato}</div>
+                        </div>
+                    </div>
+
+                    <div class="stats-kpi-card">
+                        <div class="stats-kpi-icon icon-paginas">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="stats-kpi-info">
+                            <h4>Páginas Leídas</h4>
+                            <div class="kpi-num">${this.estadisticas.paginasLeidas || 0}</div>
+                        </div>
+                    </div>
+
+                    <div class="stats-kpi-card">
+                        <div class="stats-kpi-icon icon-favoritos">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="stats-kpi-info">
+                            <h4>Tus Favoritos</h4>
+                            <div class="kpi-num">${favoritosCount}</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="tarjeta-contenido">
-                    <h3>Tus Estadísticas de Lectura</h3>
-                    <div class="estadisticas-grid">
-                        <div class="estadistica-item">
-                            <span class="estadistica-numero">${this.estadisticas.revistasVistas.size}</span>
-                            <span class="estadistica-label">Revistas vistas</span>
+
+                <!-- SPOTLIGHT: REVISTA MÁS LEÍDA -->
+                ${topRevista ? `
+                    <div class="stats-spotlight-card">
+                        <div class="stats-spotlight-cover">
+                            ${topRevista.portada 
+                                ? `<img src="${topRevista.portada}" alt="${topRevista.titulo}">` 
+                                : `<div style="width:100%; height:100%; background: #1f5b4f; display:flex; align-items:center; justify-content:center; color:#fff;"><i class="fas fa-book"></i></div>`}
                         </div>
-                        <div class="estadistica-item">
-                            <span class="estadistica-numero">${this.estadisticas.paginasLeidas}</span>
-                            <span class="estadistica-label">Páginas leídas</span>
-                        </div>
-                        <div class="estadistica-item">
-                            <span class="estadistica-numero">${tiempoFormato}</span>
-                            <span class="estadistica-label">Tiempo de lectura</span>
-                        </div>
-                        <div class="estadistica-item">
-                            <span class="estadistica-numero">${favoritosCount}</span>
-                            <span class="estadistica-label">Revistas favoritas</span>
+                        <div class="stats-spotlight-info">
+                            <span class="stats-spotlight-badge">
+                                <i class="fas fa-trophy"></i> Revista a la que más tiempo has dedicado
+                            </span>
+                            <h3 style="margin: 0 0 6px 0; font-size: 1.35rem; color: #164236;">${topRevista.titulo}</h3>
+                            <p style="margin: 0 0 12px 0; color: var(--text-secondary); font-size: 0.92rem;">
+                                Has invertido <strong>${this.formatearTiempoLectura(topRevista.tiempo)}</strong> leyendo esta publicación académica.
+                            </p>
+                            <a href="${topRevista.urlVisor}" class="stats-btn-continuar" style="padding: 9px 18px; font-size: 0.92rem;">
+                                <i class="fas fa-book-open"></i> Continuar Leyendo
+                            </a>
                         </div>
                     </div>
+                ` : ''}
+
+                <!-- LISTA DE REVISTAS EXPLORADAS -->
+                <div class="stats-section-title">
+                    <i class="fas fa-list-check"></i> Revistas que has explorado (${listaRevistasLeidas.length})
+                </div>
+
+                ${listaRevistasLeidas.length > 0 ? `
+                    <div class="stats-revistas-grid">
+                        ${revistasCardsHTML}
+                    </div>
+                ` : `
+                    <div class="tarjeta-seccion" style="text-align: center; padding: 40px 20px;">
+                        <i class="fas fa-book-open" style="font-size: 3rem; color: #1f5b4f; opacity: 0.6; margin-bottom: 15px;"></i>
+                        <h3 style="margin-bottom: 8px;">Aún no has explorado ninguna revista</h3>
+                        <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto 20px auto;">
+                            Abre cualquier revista del catálogo para comenzar tu lectura. Guardaremos tu tiempo, páginas y avance automáticamente.
+                        </p>
+                        <button class="btn-volver" style="margin: 0 auto; display: inline-flex;" onclick="flipbookManager.volverAGaleria()">
+                            <i class="fas fa-search"></i> Explorar Catálogo de Revistas
+                        </button>
+                    </div>
+                `}
+
+                <!-- ACCIONES INFERIORES -->
+                <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; margin-top: 25px; padding: 15px 0;">
+                    <button class="btn-volver" onclick="flipbookManager.volverAGaleria()">
+                        <i class="fas fa-arrow-left"></i> Explorar más revistas
+                    </button>
                     
-                    <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px;">
-                        <span class="tarjeta-accion" onclick="flipbookManager.volverAGaleria()">
-                            Explorar más revistas <i class="fas fa-arrow-right"></i>
-                        </span>
-                        
-                        <span class="tarjeta-accion" 
-                              onclick="if(confirm('¿Estás seguro de que quieres borrar todas tus estadísticas de lectura?')) flipbookManager.resetearEstadisticas()" 
-                              style="color: #e74c3c; cursor: pointer;">
-                            <i class="fas fa-trash-alt"></i> Borrar mis estadísticas
-                        </span>
-                    </div>
+                    <button onclick="if(confirm('¿Estás seguro de que deseas reiniciar tus estadísticas de lectura?')) flipbookManager.resetearEstadisticas()" 
+                            style="background: transparent; border: 1px solid rgba(231, 76, 60, 0.4); color: #e74c3c; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+                        <i class="fas fa-trash-alt"></i> Reiniciar estadísticas
+                    </button>
                 </div>
             </div>
         `;
@@ -785,7 +953,21 @@ class FlipbookManager {
                     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                     this.filtroActivo = anio;
+
+                    // Si el usuario está en alguna sección especial (Mis Estadísticas, Favoritos, etc.), volver a la galería primero
+                    if (this.seccionActiva) {
+                        this.volverAGaleria();
+                    }
                     this.filtrarPorAnio(anio);
+
+                    // Si estamos en móvil y el sidebar está abierto, cerrarlo
+                    const sidebar = document.getElementById('sidebar');
+                    const sidebarOverlay = document.getElementById('sidebarOverlay');
+                    if (sidebar && sidebar.classList.contains('active')) {
+                        sidebar.classList.remove('active');
+                        if (sidebarOverlay) sidebarOverlay.classList.remove('active');
+                        document.body.classList.remove('sidebar-open');
+                    }
                 }
             });
         });
@@ -800,6 +982,11 @@ class FlipbookManager {
         const previewBadge = document.getElementById('preview-badge');
 
         if (!previewContainer) return;
+
+        // Asegurar que el modal esté directo en el body para evitar trampas de transform o scroll
+        if (previewContainer.parentElement !== document.body) {
+            document.body.appendChild(previewContainer);
+        }
 
         const titulo = revistaElement.dataset.titulo || 'Sin título';
         const descripcion = revistaElement.dataset.descripcion;
@@ -867,7 +1054,8 @@ class FlipbookManager {
             localStorage.setItem('favoritos', JSON.stringify([...this.favoritos]));
             localStorage.setItem('estadisticas', JSON.stringify({
                 ...this.estadisticas,
-                revistasVistas: [...this.estadisticas.revistasVistas]
+                revistasVistas: [...this.estadisticas.revistasVistas],
+                revistasDetalle: this.estadisticas.revistasDetalle || {}
             }));
         } catch (e) { console.error('Error guardando en localStorage:', e); }
     }
@@ -885,7 +1073,8 @@ class FlipbookManager {
                     paginasLeidas: stats.paginasLeidas || 0,
                     tiempoLectura: stats.tiempoLectura || 0,
                     ultimaVisita: stats.ultimaVisita || null,
-                    historial: stats.historial || []
+                    historial: stats.historial || [],
+                    revistasDetalle: stats.revistasDetalle || {}
                 };
             }
         } catch (e) { console.error('Error cargando localStorage:', e); }
