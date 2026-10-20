@@ -1,0 +1,80 @@
+/* =====================================================================
+   Carrusel de fondos del portal (inicio · revistas)
+   Dos modos:
+     - Fondo de página (cross-fade de capas fijas) -> [data-fondos-bg]
+     - Imagen destacada (funde y cambia el src)     -> [data-carrusel-img]
+   Las imágenes las resuelve App\Support\FondoActual (portadas + fondos vigentes).
+   ===================================================================== */
+
+/* ---------- Fondo de página (cross-fade) ---------- */
+.fondos-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    background-color: #f4f1ec;
+}
+
+.fondos-bg .fondo-capa {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 1.2s ease-in-out;
+    will-change: opacity;
+}
+
+.fondos-bg .fondo-capa.is-active {
+    opacity: 1;
+}
+
+/* ---------- Imagen destacada con fundido ---------- */
+.carrusel-fondos {
+    position: relative;
+    width: 100%;
+}
+
+.carrusel-fondos .carrusel-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 2rem;
+    transition: opacity .6s ease-in-out;
+}
+
+.carrusel-fondos .carrusel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.carrusel-fondos .carrusel-dots button {
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(31, 91, 79, .3);
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.carrusel-fondos .carrusel-dots button:hover {
+    background: rgba(31, 91, 79, .55);
+}
+
+.carrusel-fondos .carrusel-dots button.is-active {
+    background: var(--verde, #1f5b4f);
+    transform: scale(1.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fondos-bg .fondo-capa,
+    .carrusel-fondos .carrusel-img {
+        transition: none;
+    }
+}

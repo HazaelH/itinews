@@ -1,0 +1,32 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-CL16V1Mk.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/css/custom.css": {
+    "file": "assets/custom-C91lGqxY.css",
+    "src": "resources/css/custom.css",
+    "isEntry": true,
+    "name": "custom",
+    "names": [
+      "custom.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-DdMGbBUg.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/navbar.js": {
+    "file": "assets/navbar-CIE_0Jii.js",
+    "name": "navbar",
+    "src": "resources/js/navbar.js",
+    "isEntry": true
+  }
+}

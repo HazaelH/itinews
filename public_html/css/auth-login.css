@@ -1,0 +1,392 @@
+/* =====================================================================
+   Pantalla de acceso (split) — ITINEWS
+   Carrusel de portadas + formulario de inicio de sesión.
+   Se carga únicamente en auth/login.
+   ===================================================================== */
+
+/* ---------- Tarjeta ancha de dos columnas ---------- */
+.box.box--login {
+    max-width: 1020px;
+    width: 92%;
+    padding: 0;
+    background: rgba(18, 7, 11, .55);
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 22px;
+    align-items: stretch;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.box.box--login:hover {
+    transform: none;
+    box-shadow:
+        0 30px 60px rgba(0, 0, 0, .45),
+        0 0 0 1px rgba(255, 255, 255, .06);
+}
+
+.formulario.formulario--login {
+    display: block;
+    align-items: stretch;
+    justify-content: flex-start;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    overflow: hidden;
+    width: 100%;
+}
+
+.formulario.formulario--login::before {
+    display: none;
+}
+
+.formulario.formulario--login:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* ---------- Rejilla ---------- */
+.auth-split {
+    display: grid;
+    grid-template-columns: 1.02fr 1fr;
+    min-height: 540px;
+}
+
+/* ---------- Columna: carrusel ---------- */
+.auth-carrusel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 30px 32px;
+    background: linear-gradient(150deg, #7a2138 0%, #691c32 45%, #4a1223 100%);
+    overflow: hidden;
+}
+
+.auth-carrusel::after {
+    content: '';
+    position: absolute;
+    right: -70px;
+    bottom: -70px;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(221, 201, 161, .26), transparent 70%);
+    pointer-events: none;
+}
+
+.auth-marca {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: .3px;
+    z-index: 2;
+    align-self: flex-start;
+}
+
+.auth-marca img {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, .35);
+    display: block;
+}
+
+.auth-carrusel-stage {
+    position: relative;
+    flex: 0 0 auto;
+    width: min(100%, 300px);
+    aspect-ratio: 3 / 4;
+    margin: auto 0;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #2c0a16;
+    box-shadow: 0 22px 45px rgba(0, 0, 0, .5), 0 0 0 1px rgba(255, 255, 255, .08);
+    z-index: 2;
+}
+
+.auth-slide {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    transform: scale(1.05);
+    transition: opacity .9s ease, transform 1.4s ease;
+}
+
+.auth-slide.is-active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.auth-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.auth-carrusel-stage--empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: rgba(255, 255, 255, .5);
+}
+
+.auth-carrusel-dots {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    z-index: 2;
+}
+
+.auth-carrusel-dots button {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .4);
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.auth-carrusel-dots button.is-active {
+    width: 24px;
+    border-radius: 999px;
+    background: #fff;
+}
+
+.auth-carrusel-info {
+    z-index: 2;
+    text-align: center;
+}
+
+.formulario--login .auth-carrusel-info h2 {
+    margin: 0 0 6px;
+    font-size: 1.22rem;
+    font-weight: 800;
+    color: #fff !important;
+}
+
+.formulario--login .auth-carrusel-info p {
+    margin: 0;
+    font-size: .9rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, .82) !important;
+}
+
+/* Neutraliza la regla global ".formulario span" dentro del carrusel */
+.auth-carrusel span {
+    color: inherit !important;
+}
+
+/* ---------- Columna: panel del formulario ---------- */
+.auth-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 44px 44px 38px;
+    background: #fff;
+}
+
+.formulario--login .auth-titulo {
+    margin: 0 0 6px;
+    padding: 0;
+    border: none;
+    width: auto;
+    font-size: 1.55rem;
+    font-weight: 800;
+    text-align: left;
+    color: var(--dark) !important;
+    animation: none;
+}
+
+.formulario--login .auth-sub {
+    margin: 0 0 26px;
+    font-size: .92rem;
+    color: #7a7a7a !important;
+}
+
+.auth-alerta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: #fdecef;
+    border: 1px solid #f3c2cb;
+    color: #a11232 !important;
+    font-size: .88rem;
+    font-weight: 600;
+}
+
+.auth-ok {
+    margin-bottom: 16px;
+    font-size: .88rem;
+    color: #1f5b4f !important;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.auth-form .inputBox {
+    margin-top: 12px;
+}
+
+.formulario--login .text-red-600,
+.formulario--login .text-red-500,
+.formulario--login .text-sm.text-red-600 {
+    color: #d32f2f !important;
+    font-size: .8rem;
+}
+
+.auth-acciones {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 22px;
+    flex-wrap: wrap;
+}
+
+.formulario--login .auth-recordar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: .85rem;
+    color: #555 !important;
+    cursor: pointer;
+}
+
+.formulario--login .auth-recordar input {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.formulario--login .auth-recordar span {
+    color: #555 !important;
+    font-size: .85rem;
+}
+
+.auth-enlace {
+    font-size: .85rem;
+    color: var(--primary) !important;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-enlace:hover {
+    text-decoration: underline;
+}
+
+.formulario--login .auth-submit {
+    margin-top: 24px;
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 12px;
+    background: var(--primary) !important;
+    color: #fff !important;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: .3px;
+    text-transform: none;
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.formulario--login .auth-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(34, 91, 78, .35);
+}
+
+.auth-volver {
+    margin-top: 22px;
+    font-size: .85rem;
+    text-align: center;
+}
+
+.formulario--login .auth-volver a {
+    color: #7a7a7a !important;
+    text-decoration: none;
+}
+
+.formulario--login .auth-volver a:hover {
+    color: var(--primary) !important;
+}
+
+.auth-marca--movil {
+    display: none;
+    margin-bottom: 18px;
+    color: var(--dark);
+}
+
+.auth-marca--movil img {
+    border: 1px solid rgba(0, 0, 0, .08);
+}
+
+/* ---------- Pantallas con poca altura: portada más compacta ---------- */
+@media (max-height: 780px) {
+    .auth-carrusel-stage {
+        width: min(100%, 220px);
+    }
+}
+
+@media (max-height: 690px) {
+    .auth-carrusel-stage {
+        width: min(100%, 190px);
+    }
+
+    .auth-carrusel-info {
+        display: none;
+    }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+    .auth-split {
+        grid-template-columns: 1fr;
+        min-height: 0;
+    }
+
+    .auth-carrusel {
+        display: none;
+    }
+
+    .auth-marca--movil {
+        display: inline-flex;
+    }
+
+    .auth-panel {
+        padding: 32px 26px;
+    }
+
+    .box.box--login {
+        max-width: 460px;
+        width: 94%;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-panel {
+        padding: 26px 18px;
+    }
+
+    .formulario--login .auth-titulo {
+        font-size: 1.35rem;
+    }
+}

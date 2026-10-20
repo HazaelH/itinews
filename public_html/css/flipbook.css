@@ -1,0 +1,482 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.visor-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #1a1a1a; /* Fondo un poco más claro que negro puro */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 9999;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* --- SPINNER DE CARGA (NUEVO) --- */
+.spinner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #1a1a1a;
+    z-index: 50; /* Encima del libro, debajo de controles */
+    color: #fff;
+    transition: opacity 0.5s ease-out;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    border-top-color: #0bceaf; /* Tu color primario */
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 15px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.spinner-overlay p {
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    opacity: 0.8;
+}
+
+/* --- HEADER --- */
+.visor-header {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+    box-shadow: none;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    color: #fff;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    z-index: 100;
+    pointer-events: none; 
+}
+
+.visor-header > * {
+    pointer-events: auto;
+}
+
+.hidden-ui {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+/* Para el footer, hidden-ui lo mueve hacia abajo */
+.visor-controls.hidden-ui {
+    transform: translate(-50%, 100%);
+}
+
+.header-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.revista-titulo {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.revista-fecha {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.btn-cerrar {
+    text-decoration: none;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-cerrar:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.visor-stage {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    z-index: 10;
+    background-color: #1a1a1a;
+}
+
+#flipbook {
+    max-width: 100vw;
+    max-height: 100vh;
+    width: 100vw;
+    height: 100vh;
+    background: transparent !important;
+}
+
+/* Evitar que los wrappers o contenedores de PageFlip muestren fondo blanco */
+#flipbook,
+.stf__parent,
+.stf__wrapper,
+.stf__block,
+.stf__item {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none;
+}
+
+.stf__wrapper {
+    margin: 0 auto; 
+}
+
+.visor-controls {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 12px;
+    padding: 8px 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    backdrop-filter: blur(5px);
+}
+
+.btn-control {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: color 0.2s, background-color 0.2s;
+    border-radius: 8px;
+    outline: none;
+}
+
+.btn-control:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-control:active {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(0.98);
+}
+
+.divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.page-counter {
+    color: white;
+    font-family: monospace;
+    font-size: 0.95rem;
+    min-width: 70px;
+    text-align: center;
+    user-select: none;
+}
+
+/* Estilos de alta definición y contraste al canvas de la librería */
+#flipbook canvas,
+.stf__wrapper canvas,
+.stf__item canvas {
+    background-color: transparent !important;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+#zoom-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 15, 18, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 120;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+}
+
+#zoom-overlay.active {
+    display: flex;
+}
+
+#zoom-overlay.grabbing,
+#zoom-overlay:active {
+    cursor: grabbing;
+}
+
+.zoom-hd-stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.zoom-hd-spread {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    transform-origin: center center;
+    will-change: transform;
+    pointer-events: auto;
+    transition: transform 0.05s ease-out;
+}
+
+.zoom-hd-page-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.zoom-hd-page-label {
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.75);
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    pointer-events: none;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+/* Modo doble página (PC / Escritorio) */
+.zoom-hd-spread.dual .zoom-hd-img {
+    max-width: 49.5vw;
+    max-height: 98vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85);
+    border-radius: 2px;
+    pointer-events: auto;
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+/* Modo página única (Móvil o Portada) */
+.zoom-hd-spread.single .zoom-hd-img {
+    max-width: 100vw;
+    max-height: 98vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85);
+    border-radius: 4px;
+    pointer-events: auto;
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.zoom-hd-badge {
+    position: fixed;
+    top: 20px;
+    left: 24px;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 130;
+    pointer-events: none;
+}
+
+.zoom-hd-badge i {
+    color: #0bceaf;
+}
+
+.zoom-hd-actions {
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 130;
+}
+
+.zoom-hd-btn {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.zoom-hd-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.08);
+}
+
+.zoom-hd-close-btn {
+    background: rgba(122, 24, 48, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.zoom-hd-close-btn:hover {
+    background: rgba(160, 32, 64, 0.95);
+    transform: scale(1.04);
+}
+
+.zoom-hd-nav-btn {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 130;
+    backdrop-filter: blur(8px);
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.zoom-hd-nav-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.zoom-hd-nav-btn.prev {
+    left: 20px;
+}
+
+.zoom-hd-nav-btn.next {
+    right: 20px;
+}
+
+@media (max-width: 768px) {
+    .visor-header {
+        padding: 12px 20px;
+    }
+    .revista-titulo { font-size: 1.2rem; }
+    .revista-fecha { font-size: 0.75rem; }
+    .btn-cerrar .text-cerrar { display: none; }
+    .visor-controls { bottom: 15px; padding: 6px 10px; }
+    .btn-control { font-size: 1rem; padding: 8px 12px; }
+    .page-counter { font-size: 0.85rem; min-width: 60px; }
+    .divider { height: 20px; }
+    
+    .zoom-hd-badge {
+        top: 15px;
+        left: 15px;
+        font-size: 0.75rem;
+        padding: 6px 12px;
+    }
+    .zoom-hd-actions {
+        top: 15px;
+        right: 15px;
+    }
+    .zoom-hd-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+    .zoom-hd-close-btn {
+        padding: 6px 12px;
+        font-size: 0.78rem;
+    }
+    .zoom-hd-nav-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
+    }
+    .zoom-hd-nav-btn.prev { left: 8px; }
+    .zoom-hd-nav-btn.next { right: 8px; }
+}
+
+.visor-container.is-fullscreen .visor-header {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+}
