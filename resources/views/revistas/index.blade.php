@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <title>ITINEWS - Portafolio</title>
@@ -17,7 +18,7 @@
     <link href="{{ asset('css/base.css') }}" rel="stylesheet">
     <link href="{{ asset('css/index.css') }}" rel="stylesheet">
     <link href="{{ asset('css/carrusel-fondos.css') }}" rel="stylesheet">
-    
+
     <style>
         /* ============================================
            VARIABLES Y ESTILOS GLOBALES
@@ -66,6 +67,7 @@
                 opacity: 0;
                 transform: translateY(40px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -77,6 +79,7 @@
                 opacity: 0;
                 transform: translateX(-40px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -88,6 +91,7 @@
                 opacity: 0;
                 transform: translateX(40px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -95,18 +99,24 @@
         }
 
         @keyframes floatSlow {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translateY(0px) rotate(0deg);
             }
+
             50% {
                 transform: translateY(-20px) rotate(2deg);
             }
         }
 
         @keyframes pulseGlow {
-            0%, 100% {
+
+            0%,
+            100% {
                 box-shadow: 0 0 20px rgba(31, 91, 79, 0.3), 0 0 40px rgba(122, 24, 48, 0.2);
             }
+
             50% {
                 box-shadow: 0 0 30px rgba(31, 91, 79, 0.5), 0 0 60px rgba(122, 24, 48, 0.3);
             }
@@ -116,6 +126,7 @@
             0% {
                 background-position: -200% center;
             }
+
             100% {
                 background-position: 200% center;
             }
@@ -126,6 +137,7 @@
                 opacity: 0;
                 transform: translateY(60px) scale(0.95);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0) scale(1);
@@ -148,10 +160,21 @@
             animation: floatSlow 6s ease-in-out infinite;
         }
 
-        .delay-1 { animation-delay: 0.2s; }
-        .delay-2 { animation-delay: 0.4s; }
-        .delay-3 { animation-delay: 0.6s; }
-        .delay-4 { animation-delay: 0.8s; }
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+
+        .delay-4 {
+            animation-delay: 0.8s;
+        }
 
         /* ============================================
            FONDO DINÁMICO
@@ -169,7 +192,7 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: 
+            background:
                 radial-gradient(circle at 30% 40%, rgba(31, 91, 79, 0.08) 0%, transparent 30%),
                 radial-gradient(circle at 70% 60%, rgba(122, 24, 48, 0.06) 0%, transparent 30%),
                 radial-gradient(circle at 50% 50%, rgba(248, 242, 238, 0.5) 0%, transparent 70%);
@@ -295,19 +318,34 @@
         .navbar-brand {
             transition: all 0.4s ease;
             position: relative;
+            display: inline-flex;
+            align-items: center;
         }
 
         .navbar-brand:hover {
             transform: scale(1.05);
         }
 
+        .navbar-logo-badge {
+            background: #ffffff !important;
+            padding: 6px 14px;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .navbar-logo-badge:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+        }
+
         .navbar-brand img {
-            height: 65px;
+            height: 52px;
             width: auto;
-            border-radius: 15px;
-            transition: all 0.4s ease;
-            border: 2px solid var(--verde);
-            box-shadow: 0 4px 15px rgba(31, 91, 79, 0.3);
+            display: block;
+            object-fit: contain;
         }
 
         .nav-link {
@@ -604,9 +642,11 @@
             box-sizing: border-box;
             animation: fadeIn 0.25s ease;
         }
+
         .legal-modal-overlay.active {
             display: flex;
         }
+
         .legal-modal-card {
             background: #ffffff;
             border-radius: 20px;
@@ -617,9 +657,10 @@
             flex-direction: column;
             overflow: hidden;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(0,0,0,0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             text-align: left;
         }
+
         .legal-modal-header {
             padding: 20px 24px;
             background: #1f5b4f;
@@ -628,6 +669,7 @@
             align-items: center;
             justify-content: space-between;
         }
+
         .legal-modal-header h3 {
             margin: 0;
             font-size: 1.25rem;
@@ -637,6 +679,7 @@
             align-items: center;
             gap: 10px;
         }
+
         .legal-modal-close {
             background: none;
             border: none;
@@ -646,10 +689,12 @@
             opacity: 0.85;
             transition: opacity 0.2s ease, transform 0.2s ease;
         }
+
         .legal-modal-close:hover {
             opacity: 1;
             transform: scale(1.1);
         }
+
         .legal-modal-body {
             padding: 24px;
             overflow-y: auto;
@@ -657,12 +702,14 @@
             line-height: 1.65;
             color: #374151;
         }
+
         .legal-modal-body h4 {
             color: #164236;
             margin: 18px 0 6px 0;
             font-size: 1.05rem;
             font-weight: 700;
         }
+
         .legal-modal-footer {
             padding: 16px 24px;
             background: #f8fafc;
@@ -670,6 +717,7 @@
             display: flex;
             justify-content: flex-end;
         }
+
         .btn-legal-entendido {
             background: #1f5b4f;
             color: #fff;
@@ -680,6 +728,7 @@
             cursor: pointer;
             transition: background 0.2s ease;
         }
+
         .btn-legal-entendido:hover {
             background: #164236;
         }
@@ -702,6 +751,7 @@
             text-align: left;
             animation: slideUp 0.3s ease;
         }
+
         .cookie-banner-header {
             display: flex;
             align-items: center;
@@ -709,22 +759,26 @@
             margin-bottom: 8px;
             color: #164236;
         }
+
         .cookie-banner-header h4 {
             margin: 0;
             font-size: 1.05rem;
             font-weight: 700;
         }
+
         .cookie-banner-text {
             font-size: 0.86rem;
             color: #4b5563;
             line-height: 1.5;
             margin: 0 0 16px 0;
         }
+
         .cookie-banner-actions {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
         }
+
         .btn-cookie-accept {
             flex: 1;
             background: #1f5b4f;
@@ -738,9 +792,11 @@
             transition: background 0.2s ease;
             text-align: center;
         }
+
         .btn-cookie-accept:hover {
             background: #164236;
         }
+
         .btn-cookie-essential {
             background: #e5e7eb;
             color: #374151;
@@ -753,8 +809,143 @@
             transition: background 0.2s ease;
             text-align: center;
         }
+
         .btn-cookie-essential:hover {
             background: #d1d5db;
+        }
+
+        .btn-cookie-pref {
+            background: transparent;
+            color: #1f5b4f;
+            border: 1.5px solid #1f5b4f;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.86rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-align: center;
+        }
+
+        .btn-cookie-pref:hover {
+            background: rgba(31, 91, 79, 0.08);
+            border-color: #164236;
+        }
+
+        /* Estilos del Centro de Preferencias */
+        .cookie-pref-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+        }
+
+        .cookie-pref-info strong {
+            display: block;
+            font-size: 0.95rem;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .cookie-pref-info p {
+            margin: 0;
+            font-size: 0.84rem;
+            color: #64748b;
+            line-height: 1.4;
+        }
+
+        .badge-siempre-activa {
+            display: inline-block;
+            font-size: 0.74rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #166534;
+            background: #dcfce7;
+            padding: 4px 10px;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .switch-pref {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+
+        .switch-pref input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider-pref {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background-color: #cbd5e1;
+            transition: .25s ease;
+            border-radius: 26px;
+        }
+
+        .slider-pref:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .25s ease;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .switch-pref input:checked+.slider-pref {
+            background-color: #1f5b4f;
+        }
+
+        .switch-pref input:checked+.slider-pref:before {
+            transform: translateX(22px);
+        }
+
+        .btn-guardar-pref {
+            background: #1f5b4f;
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .btn-guardar-pref:hover {
+            background: #164236;
+        }
+
+        .msg-pref-guardado {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            background: #dcfce7;
+            color: #166534;
+            font-size: 0.88rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         /* ============================================
@@ -783,6 +974,7 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
+
             *,
             *::before,
             *::after {
@@ -799,24 +991,24 @@
             .navbar {
                 padding: 0.5rem 1rem;
             }
-            
+
             .navbar-brand img {
-                height: 50px;
+                height: 42px;
             }
-            
+
             .display-4 {
                 font-size: 2.2rem;
             }
-            
+
             .typed-text-output {
                 font-size: 1.2rem;
             }
-            
+
             .btn-access {
                 width: 60px;
                 height: 60px;
             }
-            
+
             .btn-access span {
                 border-left: 15px solid var(--white);
                 border-top: 10px solid transparent;
@@ -852,9 +1044,11 @@
     <!-- NAVBAR ELEGANTE -->
     <nav class="navbar px-4" id="navbar">
         <a href="{{ url('/') }}" class="navbar-brand">
-            <img src="{{ asset('img/logo.jpg') }}" alt="Logo ITINEWS">
+            <div class="navbar-logo-badge">
+                <img src="{{ asset('img/logo.jpg') }}" alt="Logo ITINEWS">
+            </div>
         </a>
-        
+
         <div class="d-flex align-items-center">
             <a href="{{ route('revistas.index') }}" class="nav-link ml-2">
                 <i class="fas fa-book mr-1"></i>
@@ -866,10 +1060,10 @@
                     <i class="fas fa-tachometer-alt mr-1"></i>
                     <span>Dashboard</span>
                 </a>
-                
+
                 <form method="POST" action="{{ route('logout') }}" class="d-inline">
                     @csrf
-                    <a href="{{ route('logout') }}" class="nav-link ml-3" 
+                    <a href="{{ route('logout') }}" class="nav-link ml-3"
                         onclick="event.preventDefault(); this.closest('form').submit();">
                         <i class="fas fa-sign-out-alt mr-1"></i>
                         <span>Cerrar Sesión</span>
@@ -886,13 +1080,14 @@
             <div class="search-bar-container">
                 <div class="search-bar">
                     <i class="fas fa-search"></i>
-                    <input type="text" id="searchRevistasHome" placeholder="Buscar revistas por título, año o descripción...">
+                    <input type="text" id="searchRevistasHome"
+                        placeholder="Buscar revistas por título, año o descripción...">
                     <span id="resultados-busqueda-home" class="resultados-busqueda"></span>
                 </div>
             </div>
 
             <div class="row align-items-center justify-content-between">
-                
+
                 <!-- Columna de texto -->
                 <div class="col-lg-6 text-center text-lg-left order-2 order-lg-1 mt-5 mt-lg-0">
                     <div class="animate-fade-left">
@@ -901,17 +1096,18 @@
                             Ingeniería en TI
                         </span>
                     </div>
-                    
+
                     <h1 class="display-4 font-weight-bold mb-4 animate-fade-left delay-1">
                         Explora el conocimiento en <span>ITINEWS</span>
                     </h1>
-                    
+
                     <h4 class="font-weight-light mb-5 animate-fade-left delay-2">
                         <span class="typed-text-output"></span>
                     </h4>
                     <div class="typed-text d-none">Plataforma Científica, Innovación Tecnológica, Portal Académico</div>
-                    
-                    <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-2 animate-fade-left delay-3">
+
+                    <div
+                        class="d-flex align-items-center justify-content-center justify-content-lg-start pt-2 animate-fade-left delay-3">
                         <div class="access-button-wrapper">
                             <a href="{{ route('revistas.index') }}" class="btn-access" aria-label="Acceder al Portal">
                                 <span></span>
@@ -934,11 +1130,8 @@
                             <div class="floating-decoration decoration-3"></div>
                             <div class="carrusel-fondos">
                                 <img class="img-fluid animate-float carrusel-img"
-                                    src="{{ $fondosInicio[0] ?? asset('img/inicio.jpg') }}"
-                                    alt="Recurso ITINEWS"
-                                    data-carrusel-img
-                                    data-srcs="{{ $fondosJson }}"
-                                    data-intervalo="5000"
+                                    src="{{ $fondosInicio[0] ?? asset('img/inicio.jpg') }}" alt="Recurso ITINEWS"
+                                    data-carrusel-img data-srcs="{{ $fondosJson }}" data-intervalo="5000"
                                     style="border-radius: 2rem !important; max-width: 100%;">
                                 <div class="carrusel-dots" data-carrusel-dots aria-hidden="true"></div>
                             </div>
@@ -956,15 +1149,20 @@
             <div class="row">
                 <div class="col-12">
                     <i class="fas fa-university mr-2"></i>
-                    <p class="d-inline-block">&copy; {{ date('Y') }} Portal ITINEWS - Universidad Politécnica del Valle de Toluca</p>
+                    <p class="d-inline-block">&copy; {{ date('Y') }} Portal ITINEWS - Universidad Politécnica del Valle
+                        de Toluca</p>
                     <div class="footer-legal-links">
-                        <button type="button" class="legal-link-btn" onclick="abrirModalLegal('terminos')">Términos y Condiciones</button>
+                        <button type="button" class="legal-link-btn" onclick="abrirModalLegal('terminos')">Términos y
+                            Condiciones</button>
                         <span class="legal-sep">&bull;</span>
-                        <button type="button" class="legal-link-btn" onclick="abrirModalLegal('privacidad')">Aviso de Privacidad</button>
+                        <button type="button" class="legal-link-btn" onclick="abrirModalLegal('privacidad')">Aviso de
+                            Privacidad</button>
                         <span class="legal-sep">&bull;</span>
-                        <button type="button" class="legal-link-btn" onclick="abrirModalLegal('cookies')">Política de Cookies</button>
+                        <button type="button" class="legal-link-btn" onclick="abrirModalLegal('cookies')">Política de
+                            Cookies</button>
                         <span class="legal-sep">&bull;</span>
-                        <button type="button" class="legal-link-btn" onclick="mostrarBannerCookies(true)">Preferencias de Privacidad</button>
+                        <button type="button" class="legal-link-btn"
+                            onclick="abrirModalLegal('preferencias')">Preferencias de Privacidad</button>
                     </div>
                 </div>
             </div>
@@ -972,103 +1170,201 @@
     </footer>
 
     <!-- MODAL TÉRMINOS Y CONDICIONES -->
-    <div id="modalLegalTerminos" class="legal-modal-overlay" onclick="if(event.target===this) cerrarModalLegal('terminos')">
+    <div id="modalLegalTerminos" class="legal-modal-overlay"
+        onclick="if(event.target===this) cerrarModalLegal('terminos')">
         <div class="legal-modal-card">
             <div class="legal-modal-header">
                 <h3><i class="fas fa-file-contract"></i> Términos y Condiciones de Uso</h3>
-                <button type="button" class="legal-modal-close" onclick="cerrarModalLegal('terminos')" aria-label="Cerrar">&times;</button>
+                <button type="button" class="legal-modal-close" onclick="cerrarModalLegal('terminos')"
+                    aria-label="Cerrar">&times;</button>
             </div>
             <div class="legal-modal-body">
                 <h4>1. Aceptación de los Términos</h4>
-                <p>Al acceder y utilizar el <strong>Portal ITINEWS</strong> de la Universidad Politécnica del Valle de Toluca (UPVT), usted acepta sujetarse a los presentes Términos y Condiciones de uso con fines exclusivamente académicos, informativos y de divulgación científica.</p>
+                <p>Al acceder y utilizar el <strong>Portal ITINEWS</strong> de la Universidad Politécnica del Valle de
+                    Toluca (UPVT), usted acepta sujetarse a los presentes Términos y Condiciones de uso con fines
+                    exclusivamente académicos, informativos y de divulgación científica.</p>
 
                 <h4>2. Propiedad Intelectual y Derechos de Autor</h4>
-                <p>Todo el contenido publicado, incluyendo artículos, reseñas, imágenes, diseños editoriales, portadas y logotipos, se encuentra protegido por las leyes de propiedad intelectual mexicanas e internacionales. Los autores de los artículos conservan sus derechos morales, otorgando a la UPVT el derecho de difusión no comercial.</p>
+                <p>Todo el contenido publicado, incluyendo artículos, reseñas, imágenes, diseños editoriales, portadas y
+                    logotipos, se encuentra protegido por las leyes de propiedad intelectual mexicanas e
+                    internacionales. Los autores de los artículos conservan sus derechos morales, otorgando a la UPVT el
+                    derecho de difusión no comercial.</p>
 
                 <h4>3. Uso Permitido y Citas</h4>
-                <p>Se autoriza la consulta, lectura y cita académica de las publicaciones siempre que se otorgue el debido crédito al autor y a la revista ITINEWS UPVT, indicando el número y año de la edición correspondiente. Queda prohibida la reproducción total o parcial con fines de lucro sin autorización previa por escrito.</p>
+                <p>Se autoriza la consulta, lectura y cita académica de las publicaciones siempre que se otorgue el
+                    debido crédito al autor y a la revista ITINEWS UPVT, indicando el número y año de la edición
+                    correspondiente. Queda prohibida la reproducción total o parcial con fines de lucro sin autorización
+                    previa por escrito.</p>
 
                 <h4>4. Responsabilidad del Usuario</h4>
-                <p>El usuario se compromete a hacer un uso lícito y respetuoso de los recursos del portal, absteniéndose de realizar actos que puedan dañar, inutilizar, sobrecargar o deteriorar los servidores o servicios del sistema.</p>
+                <p>El usuario se compromete a hacer un uso lícito y respetuoso de los recursos del portal, absteniéndose
+                    de realizar actos que puedan dañar, inutilizar, sobrecargar o deteriorar los servidores o servicios
+                    del sistema.</p>
             </div>
             <div class="legal-modal-footer">
-                <button type="button" class="btn-legal-entendido" onclick="cerrarModalLegal('terminos')">Entendido</button>
+                <button type="button" class="btn-legal-entendido"
+                    onclick="cerrarModalLegal('terminos')">Entendido</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL AVISO DE PRIVACIDAD -->
-    <div id="modalLegalPrivacidad" class="legal-modal-overlay" onclick="if(event.target===this) cerrarModalLegal('privacidad')">
+    <div id="modalLegalPrivacidad" class="legal-modal-overlay"
+        onclick="if(event.target===this) cerrarModalLegal('privacidad')">
         <div class="legal-modal-card">
             <div class="legal-modal-header">
                 <h3><i class="fas fa-shield-alt"></i> Aviso de Privacidad Integral</h3>
-                <button type="button" class="legal-modal-close" onclick="cerrarModalLegal('privacidad')" aria-label="Cerrar">&times;</button>
+                <button type="button" class="legal-modal-close" onclick="cerrarModalLegal('privacidad')"
+                    aria-label="Cerrar">&times;</button>
             </div>
             <div class="legal-modal-body">
                 <h4>1. Responsable del Tratamiento</h4>
-                <p>La <strong>Universidad Politécnica del Valle de Toluca (UPVT)</strong>, a través de la División de Ingeniería en Tecnologías de la Información, es la responsable del tratamiento de los datos en cumplimiento con la <em>Ley General de Protección de Datos Personales en Posesión de Sujetos Obligados</em>.</p>
+                <p>La <strong>Universidad Politécnica del Valle de Toluca (UPVT)</strong>, a través de la División de
+                    Ingeniería en Tecnologías de la Información, es la responsable del tratamiento de los datos en
+                    cumplimiento con la <em>Ley General de Protección de Datos Personales en Posesión de Sujetos
+                        Obligados</em>.</p>
 
                 <h4>2. Datos Recabados y Finalidad</h4>
-                <p>El Portal ITINEWS es un repositorio de libre acceso y <strong>no solicita ni almacena datos personales sensibles</strong> de los lectores generales. Las preferencias y métricas de lectura se conservan de forma local en su propio navegador.</p>
+                <p>El Portal ITINEWS es un repositorio de libre acceso y <strong>no solicita ni almacena datos
+                        personales sensibles</strong> de los lectores generales. Las preferencias y métricas de lectura
+                    se conservan de forma local en su propio navegador.</p>
 
                 <h4>3. Métricas Anónimas</h4>
-                <p>Para fines de acreditación académica y optimización, el portal registra métricas agregadas anónimas (páginas vistas y tiempos) sin vincularlas a su identidad personal.</p>
+                <p>Para fines de acreditación académica y optimización, el portal registra métricas agregadas anónimas
+                    (páginas vistas y tiempos) sin vincularlas a su identidad personal.</p>
 
                 <h4>4. Ejercicio de Derechos ARCO</h4>
-                <p>Para cualquier consulta referente a la privacidad del portal o el ejercicio de derechos ARCO, puede comunicarse con la Unidad de Transparencia de la UPVT a través de sus canales institucionales oficiales.</p>
+                <p>Para cualquier consulta referente a la privacidad del portal o el ejercicio de derechos ARCO, puede
+                    comunicarse con la Unidad de Transparencia de la UPVT a través de sus canales institucionales
+                    oficiales.</p>
             </div>
             <div class="legal-modal-footer">
-                <button type="button" class="btn-legal-entendido" onclick="cerrarModalLegal('privacidad')">Entendido</button>
+                <button type="button" class="btn-legal-entendido"
+                    onclick="cerrarModalLegal('privacidad')">Entendido</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL POLÍTICA DE COOKIES -->
-    <div id="modalLegalCookies" class="legal-modal-overlay" onclick="if(event.target===this) cerrarModalLegal('cookies')">
+    <div id="modalLegalCookies" class="legal-modal-overlay"
+        onclick="if(event.target===this) cerrarModalLegal('cookies')">
         <div class="legal-modal-card">
             <div class="legal-modal-header">
                 <h3><i class="fas fa-cookie-bite"></i> Política de Cookies y Almacenamiento</h3>
-                <button type="button" class="legal-modal-close" onclick="cerrarModalLegal('cookies')" aria-label="Cerrar">&times;</button>
+                <button type="button" class="legal-modal-close" onclick="cerrarModalLegal('cookies')"
+                    aria-label="Cerrar">&times;</button>
             </div>
             <div class="legal-modal-body">
                 <h4>1. ¿Qué tecnologías utilizamos?</h4>
-                <p>El Portal ITINEWS utiliza <strong>almacenamiento web funcional (LocalStorage)</strong> y cookies técnicas esenciales. No utilizamos cookies publicitarias, comerciales ni rastreadores de terceros.</p>
+                <p>El Portal ITINEWS utiliza <strong>almacenamiento web funcional (LocalStorage)</strong> y cookies
+                    técnicas esenciales. No utilizamos cookies publicitarias, comerciales ni rastreadores de terceros.
+                </p>
 
                 <h4>2. Finalidades Funcionales</h4>
                 <ul>
-                    <li><strong>Preferencia Visual:</strong> Recordar si prefieres navegar en Modo Claro o Modo Oscuro.</li>
-                    <li><strong>Favoritos:</strong> Guardar las revistas que marcas con corazón en tu biblioteca personal del navegador.</li>
-                    <li><strong>Métricas de Lectura Personal:</strong> Permitir que lleves el control del tiempo dedicado y páginas leídas en tu sección "Mis Estadísticas".</li>
-                    <li><strong>Sesión Administrativa:</strong> En el caso de docentes y administradores, validar el token CSRF y la sesión segura de Laravel.</li>
+                    <li><strong>Preferencia Visual:</strong> Recordar si prefieres navegar en Modo Claro o Modo Oscuro.
+                    </li>
+                    <li><strong>Favoritos:</strong> Guardar las revistas que marcas con corazón en tu biblioteca
+                        personal del navegador.</li>
+                    <li><strong>Métricas de Lectura Personal:</strong> Permitir que lleves el control del tiempo
+                        dedicado y páginas leídas en tu sección "Mis Estadísticas".</li>
+                    <li><strong>Sesión Administrativa:</strong> En el caso de docentes y administradores, validar el
+                        token CSRF y la sesión segura de Laravel.</li>
                 </ul>
 
                 <h4>3. Control y Eliminación</h4>
-                <p>Puedes borrar tus datos locales en cualquier momento desde la sección <em>Mis Estadísticas &gt; Reiniciar Estadísticas</em> o limpiando el almacenamiento de tu navegador.</p>
+                <p>Puedes borrar tus datos locales en cualquier momento desde la sección <em>Mis Estadísticas &gt;
+                        Reiniciar Estadísticas</em> o limpiando el almacenamiento de tu navegador.</p>
             </div>
             <div class="legal-modal-footer">
-                <button type="button" class="btn-legal-entendido" onclick="cerrarModalLegal('cookies')">Entendido</button>
+                <button type="button" class="btn-legal-entendido"
+                    onclick="cerrarModalLegal('cookies')">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PREFERENCIAS DE PRIVACIDAD -->
+    <div id="modalLegalPreferencias" class="legal-modal-overlay"
+        onclick="if(event.target===this) cerrarModalLegal('preferencias')">
+        <div class="legal-modal-card">
+            <div class="legal-modal-header">
+                <h3><i class="fas fa-sliders-h"></i> Centro de Preferencias de Privacidad</h3>
+                <button type="button" class="legal-modal-close" onclick="cerrarModalLegal('preferencias')"
+                    aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="legal-modal-body">
+                <p style="margin-bottom: 16px; font-size: 0.92rem; color: #4b5563;">
+                    En el <strong>Portal ITINEWS</strong> respetamos tu privacidad. Puedes configurar qué tipo de
+                    almacenamiento local permites durante tu navegación.
+                </p>
+
+                <!-- Tarjeta: Esenciales -->
+                <div class="cookie-pref-item">
+                    <div class="cookie-pref-info">
+                        <strong><i class="fas fa-lock" style="color: #1f5b4f;"></i> Cookies Técnicas y
+                            Esenciales</strong>
+                        <p>Necesarias para la navegación básica, seguridad contra ataques CSRF y gestión de sesiones
+                            administrativas. No se pueden desactivar.</p>
+                    </div>
+                    <div class="cookie-pref-switch">
+                        <span class="badge-siempre-activa">Siempre activas</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Funcionales -->
+                <div class="cookie-pref-item">
+                    <div class="cookie-pref-info">
+                        <strong><i class="fas fa-heart" style="color: #7a1830;"></i> Almacenamiento Funcional y
+                            Personalización</strong>
+                        <p>Permite guardar tu preferencia de Tema Claro/Oscuro, tu lista local de Revistas Favoritas y
+                            calcular tus métricas privadas de lectura en "Mis Estadísticas".</p>
+                    </div>
+                    <div class="cookie-pref-switch">
+                        <label class="switch-pref">
+                            <input type="checkbox" id="checkPrefFuncionales" checked>
+                            <span class="slider-pref"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="msgGuardadoPreferencias" class="msg-pref-guardado" style="display: none;">
+                    <i class="fas fa-circle-check"></i> Tus preferencias de privacidad han sido actualizadas.
+                </div>
+            </div>
+            <div class="legal-modal-footer"
+                style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <button type="button" class="btn-cookie-essential"
+                    onclick="gestionarCookies('esenciales'); cerrarModalLegal('preferencias');">Solo necesarias</button>
+                <div style="display: flex; gap: 8px;">
+                    <button type="button" class="btn-guardar-pref" onclick="guardarDesdeModalPreferencias()">Guardar
+                        preferencias</button>
+                    <button type="button" class="btn-legal-entendido"
+                        onclick="gestionarCookies('todas'); cerrarModalLegal('preferencias');">Permitir todas</button>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- BANNER DE COOKIES FUNCIONALES -->
-    <aside id="bannerCookies" class="cookie-banner" role="dialog" aria-labelledby="cookieBannerTitle" aria-describedby="cookieBannerDesc">
+    <aside id="bannerCookies" class="cookie-banner" role="dialog" aria-labelledby="cookieBannerTitle"
+        aria-describedby="cookieBannerDesc">
         <div class="cookie-banner-header">
             <i class="fas fa-cookie-bite fa-lg"></i>
-            <h4 id="cookieBannerTitle">Privacidad y Almacenamiento Local</h4>
+            <h4 id="cookieBannerTitle">Privacidad y Cookies</h4>
         </div>
         <p id="cookieBannerDesc" class="cookie-banner-text">
-            Utilizamos almacenamiento local funcional para recordar tu tema (claro/oscuro), tus revistas favoritas y calcular tus métricas personales de lectura sin rastreo comercial.
+            Utilizamos cookies esenciales y almacenamiento local funcional para guardar tus favoritos, recordar tu tema
+            visual (claro/oscuro) y tus estadísticas privadas de lectura. No realizamos rastreo comercial.
         </p>
         <div class="cookie-banner-actions">
             <button type="button" class="btn-cookie-accept" onclick="gestionarCookies('todas')">
-                <i class="fas fa-check"></i> Aceptar Funcionales
+                <i class="fas fa-check"></i> Permitir cookies
             </button>
             <button type="button" class="btn-cookie-essential" onclick="gestionarCookies('esenciales')">
-                Solo Esenciales
+                Solo necesarias
             </button>
-            <button type="button" class="btn-cookie-essential" onclick="abrirModalLegal('cookies')" style="border: 1px solid #cbd5e1;">
-                <i class="fas fa-info-circle"></i> Detalles
+            <button type="button" class="btn-cookie-pref" onclick="abrirModalLegal('preferencias')">
+                <i class="fas fa-sliders-h"></i> Preferencias
             </button>
         </div>
     </aside>
@@ -1082,7 +1378,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('lib/typed/typed.min.js') }}"></script>
-    
+
     <script src="{{ asset('js/modules/navbar.js') }}"></script>
     <script src="{{ asset('js/modules/scrolling.js') }}"></script>
     <script src="{{ asset('js/modules/typed.js') }}"></script>
@@ -1094,11 +1390,11 @@
     <script>
         // Navbar scroll effect
         const navbar = document.getElementById('navbar');
-        
+
         if (navbar) {
-            window.addEventListener('scroll', function() {
+            window.addEventListener('scroll', function () {
                 const currentScroll = window.pageYOffset;
-                
+
                 if (currentScroll > 50) {
                     navbar.classList.add('scrolled');
                 } else {
@@ -1125,11 +1421,11 @@
         });
 
         // Efecto parallax suave para elementos decorativos
-        document.addEventListener('mousemove', function(e) {
+        document.addEventListener('mousemove', function (e) {
             const decorations = document.querySelectorAll('.floating-decoration');
             const mouseX = e.clientX / window.innerWidth;
             const mouseY = e.clientY / window.innerHeight;
-            
+
             decorations.forEach((decoration, index) => {
                 const speed = (index + 1) * 20;
                 const x = (mouseX - 0.5) * speed;
@@ -1156,7 +1452,7 @@
         // Búsqueda en página de inicio - redirige a revistas con el término
         const searchHome = document.getElementById('searchRevistasHome');
         if (searchHome) {
-            searchHome.addEventListener('keydown', function(e) {
+            searchHome.addEventListener('keydown', function (e) {
                 if (e.key === 'Enter' && this.value.trim()) {
                     window.location.href = "{{ route('revistas.index') }}?search=" + encodeURIComponent(this.value.trim());
                 }
@@ -1168,10 +1464,18 @@
             const idMap = {
                 'terminos': 'modalLegalTerminos',
                 'privacidad': 'modalLegalPrivacidad',
-                'cookies': 'modalLegalCookies'
+                'cookies': 'modalLegalCookies',
+                'preferencias': 'modalLegalPreferencias'
             };
             const modal = document.getElementById(idMap[tipo]);
             if (modal) {
+                if (tipo === 'preferencias') {
+                    const consent = localStorage.getItem('itinews_cookies_consent');
+                    const check = document.getElementById('checkPrefFuncionales');
+                    if (check) {
+                        check.checked = (consent !== 'esenciales');
+                    }
+                }
                 modal.classList.add('active');
                 document.body.style.overflow = 'hidden';
             }
@@ -1181,7 +1485,8 @@
             const idMap = {
                 'terminos': 'modalLegalTerminos',
                 'privacidad': 'modalLegalPrivacidad',
-                'cookies': 'modalLegalCookies'
+                'cookies': 'modalLegalCookies',
+                'preferencias': 'modalLegalPreferencias'
             };
             const modal = document.getElementById(idMap[tipo]);
             if (modal) {
@@ -1190,11 +1495,27 @@
             }
         }
 
+        function guardarDesdeModalPreferencias() {
+            const check = document.getElementById('checkPrefFuncionales');
+            const nivel = (check && check.checked) ? 'todas' : 'esenciales';
+            gestionarCookies(nivel);
+            const msg = document.getElementById('msgGuardadoPreferencias');
+            if (msg) {
+                msg.style.display = 'flex';
+                setTimeout(() => {
+                    msg.style.display = 'none';
+                    cerrarModalLegal('preferencias');
+                }, 800);
+            } else {
+                cerrarModalLegal('preferencias');
+            }
+        }
+
         function gestionarCookies(nivel) {
             try {
                 localStorage.setItem('itinews_cookies_consent', nivel);
                 localStorage.setItem('itinews_cookies_date', new Date().toISOString());
-            } catch(e) {}
+            } catch (e) { }
             const banner = document.getElementById('bannerCookies');
             if (banner) banner.style.display = 'none';
         }
@@ -1208,19 +1529,21 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             setTimeout(() => {
                 mostrarBannerCookies(false);
             }, 800);
 
-            document.addEventListener('keydown', function(e) {
+            document.addEventListener('keydown', function (e) {
                 if (e.key === 'Escape') {
                     cerrarModalLegal('terminos');
                     cerrarModalLegal('privacidad');
                     cerrarModalLegal('cookies');
+                    cerrarModalLegal('preferencias');
                 }
             });
         });
     </script>
 </body>
+
 </html>

@@ -548,19 +548,38 @@ class FlipbookManager {
     }
 
     getContenidoDestacadas() {
-        // Priorizar las revistas marcadas como destacadas por el administrador
-        let destacadas = this.revistasData.filter(r => r.destacada);
-        
-        // Si hay menos de 6 destacadas, completar con las más recientes
-        if (destacadas.length < 6) {
-            const adicionales = this.revistasData
-                .filter(r => !destacadas.includes(r))
-                .slice(0, 6 - destacadas.length);
-            destacadas.push(...adicionales);
+        // Mostrar exclusivamente las revistas marcadas como destacadas por el administrador
+        const destacadas = this.revistasData.filter(r => r.destacada);
+
+        if (destacadas.length === 0) {
+            return `
+                <div class="seccion-header">
+                    <div>
+                        <h2 class="seccion-titulo"><i class="fas fa-award" style="color: #b45309;"></i> Revistas Destacadas</h2>
+                        <span class="stats-section-subtitle">Ediciones seleccionadas por el comité editorial</span>
+                    </div>
+                    <button class="btn-volver" onclick="flipbookManager.volverAGaleria()">
+                        <i class="fas fa-arrow-left"></i> Volver a Todas las Revistas
+                    </button>
+                </div>
+
+                <div class="editorial-section-container">
+                    <div class="stats-empty-state">
+                        <div class="stats-empty-icon" style="color: #f59e0b;">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>Aún no hay revistas destacadas</h3>
+                        <p>El comité editorial no ha seleccionado ediciones destacadas por el momento.</p>
+                        <button class="btn-volver" style="margin: 0 auto; display: inline-flex;" onclick="flipbookManager.volverAGaleria()">
+                            <i class="fas fa-book-open"></i> Explorar Catálogo
+                        </button>
+                    </div>
+                </div>
+            `;
         }
 
-        const gridHTML = destacadas.map((r, idx) => {
-            const footerMeta = `<span class="meta-pill pill-destacada"><i class="fas fa-fire"></i> Destacada #${idx + 1}</span>`;
+        const gridHTML = destacadas.map((r) => {
+            const footerMeta = `<span class="meta-pill pill-destacada"><i class="fas fa-star"></i> Destacada</span>`;
             return this.generarTarjetaEditorial(r, { footerMeta });
         }).join('');
 
@@ -568,7 +587,7 @@ class FlipbookManager {
             <div class="seccion-header">
                 <div>
                     <h2 class="seccion-titulo"><i class="fas fa-award" style="color: #b45309;"></i> Revistas Destacadas</h2>
-                    <span class="stats-section-subtitle">Las ediciones con mayor impacto e interés en nuestra comunidad académica</span>
+                    <span class="stats-section-subtitle">${destacadas.length} ${destacadas.length === 1 ? 'edición seleccionada' : 'ediciones seleccionadas'} por su relevancia académica</span>
                 </div>
                 <button class="btn-volver" onclick="flipbookManager.volverAGaleria()">
                     <i class="fas fa-arrow-left"></i> Volver a Todas las Revistas
@@ -851,8 +870,10 @@ class FlipbookManager {
             <div class="editorial-section-container">
                 <!-- HERO INSTITUCIONAL -->
                 <div class="acerca-hero-card">
-                    <div class="acerca-logo-wrap">
-                        <img src="/img/logo.jpg" alt="Logo UPVT" class="acerca-logo-img">
+                    <div class="acerca-logo">
+                        <div class="acerca-logo-badge">
+                            <img src="/img/logo.jpg" alt="Logo UPVT" class="acerca-logo-img">
+                        </div>
                     </div>
                     <div>
                         <span class="stats-spotlight-badge" style="background: #7a1830; margin-bottom: 8px;">

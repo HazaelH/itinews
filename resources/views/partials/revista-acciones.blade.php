@@ -41,8 +41,7 @@
             @csrf
             @method('PATCH')
             <button type="submit"
-                    class="rev-accion {{ $revista->esDestacada() ? 'ambar' : 'ver' }} action-link"
-                    style="{{ $revista->esDestacada() ? 'color:#f59e0b; background:rgba(245, 158, 11, 0.15);' : '' }}"
+                    class="rev-accion {{ $revista->esDestacada() ? 'destacada' : 'no-destacada' }} action-link"
                     title="{{ $revista->esDestacada() ? 'Quitar de destacadas' : 'Marcar como destacada' }}"
                     aria-label="{{ $revista->esDestacada() ? 'Quitar de destacadas' : 'Marcar como destacada' }}">
                 <i class="fas fa-star" aria-hidden="true"></i>

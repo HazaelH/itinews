@@ -936,10 +936,28 @@
     color: #fff;
 }
 
+.rev-accion.destacada {
+    color: #d97706 !important;
+    background: rgba(245, 158, 11, 0.16) !important;
+    border-color: rgba(245, 158, 11, 0.4) !important;
+}
+
+.rev-accion.destacada:hover {
+    background: #f59e0b !important;
+    border-color: #f59e0b !important;
+    color: #fff !important;
+}
+
+.rev-accion.no-destacada:hover {
+    background: #fef3c7 !important;
+    border-color: #f59e0b !important;
+    color: #d97706 !important;
+}
+
 /* ---------- Vista de tarjetas ---------- */
 .rev-tarjetas {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
     gap: 18px;
     padding: 22px;
 }
@@ -1037,6 +1055,23 @@
     border-top: 1px solid #f1ebe3;
     display: flex;
     justify-content: flex-end;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.rev-tarjeta-acciones .rev-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 6px;
+    max-width: 100%;
+}
+
+.rev-tarjeta-acciones .rev-accion {
+    width: 32px;
+    height: 32px;
+    font-size: .8rem;
+    border-radius: 8px;
 }
 
 /* ---------- Estados vacíos ---------- */

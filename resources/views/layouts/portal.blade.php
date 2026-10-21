@@ -303,12 +303,49 @@
             transform: scale(1.05);
         }
 
-        .sidebar-logo {
-            height: 70px !important;
-            width: auto !important;
+        .sidebar-logo-badge {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            background: #ffffff !important;
+            padding: 8px 18px !important;
+            border-radius: 14px !important;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22) !important;
             margin-bottom: 12px !important;
-            border-radius: 8px !important;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+        }
+
+        .sidebar-logo-badge:hover {
+            transform: scale(1.03) !important;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .sidebar-logo {
+            height: 56px !important;
+            width: auto !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            object-fit: contain !important;
+            display: block !important;
+        }
+
+        .acerca-logo-badge {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            background: #ffffff !important;
+            padding: 10px 22px !important;
+            border-radius: 16px !important;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+            margin: 0 auto 1.5rem !important;
+        }
+
+        .acerca-logo-img {
+            max-width: 140px !important;
+            height: auto !important;
+            object-fit: contain !important;
+            display: block !important;
         }
 
         .sidebar-header h2 {
@@ -1451,6 +1488,152 @@
             color: #e5e7eb;
         }
 
+        .btn-cookie-pref {
+            background: transparent;
+            color: #1f5b4f;
+            border: 1.5px solid #1f5b4f;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.86rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-align: center;
+        }
+        .btn-cookie-pref:hover {
+            background: rgba(31, 91, 79, 0.08);
+            border-color: #164236;
+        }
+        body.dark-mode .btn-cookie-pref {
+            color: #72dfca;
+            border-color: #72dfca;
+        }
+        body.dark-mode .btn-cookie-pref:hover {
+            background: rgba(114, 223, 202, 0.12);
+        }
+
+        /* Estilos del Centro de Preferencias */
+        .cookie-pref-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+        }
+        body.dark-mode .cookie-pref-item {
+            background: #1a2220;
+            border-color: #2a3a35;
+        }
+        .cookie-pref-info strong {
+            display: block;
+            font-size: 0.95rem;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+        body.dark-mode .cookie-pref-info strong {
+            color: #f1f5f9;
+        }
+        .cookie-pref-info p {
+            margin: 0;
+            font-size: 0.84rem;
+            color: #64748b;
+            line-height: 1.4;
+        }
+        body.dark-mode .cookie-pref-info p {
+            color: #94a3b8;
+        }
+        .badge-siempre-activa {
+            display: inline-block;
+            font-size: 0.74rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #166534;
+            background: #dcfce7;
+            padding: 4px 10px;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+        body.dark-mode .badge-siempre-activa {
+            background: rgba(34, 197, 94, 0.2);
+            color: #86efac;
+        }
+        .switch-pref {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+        .switch-pref input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider-pref {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background-color: #cbd5e1;
+            transition: .25s ease;
+            border-radius: 26px;
+        }
+        .slider-pref:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .25s ease;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .switch-pref input:checked + .slider-pref {
+            background-color: #1f5b4f;
+        }
+        .switch-pref input:checked + .slider-pref:before {
+            transform: translateX(22px);
+        }
+        .btn-guardar-pref {
+            background: #1f5b4f;
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .btn-guardar-pref:hover {
+            background: #164236;
+        }
+        .msg-pref-guardado {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            background: #dcfce7;
+            color: #166534;
+            font-size: 0.88rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        body.dark-mode .msg-pref-guardado {
+            background: rgba(34, 197, 94, 0.15);
+            color: #86efac;
+        }
+
         @media (max-width: 600px) {
             .stats-spotlight-card,
             .acerca-hero-card {
@@ -1488,7 +1671,9 @@
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <a href="{{ url('/') }}" class="logo-link">
-                <img src="{{ asset('img/logo.jpg') }}" alt="ITINEWS" class="sidebar-logo">
+                <div class="sidebar-logo-badge">
+                    <img src="{{ asset('img/logo.jpg') }}" alt="ITINEWS" class="sidebar-logo">
+                </div>
                 <h2>Portal ITINEWS</h2>
             </a>
         </div>
@@ -1602,7 +1787,7 @@
                 <span class="legal-sep">&bull;</span>
                 <button type="button" class="legal-link-btn" onclick="abrirModalLegal('cookies')">Política de Cookies</button>
                 <span class="legal-sep">&bull;</span>
-                <button type="button" class="legal-link-btn" onclick="mostrarBannerCookies(true)">Preferencias de Privacidad</button>
+                <button type="button" class="legal-link-btn" onclick="abrirModalLegal('preferencias')">Preferencias de Privacidad</button>
             </div>
         </div>
     </footer>
@@ -1687,24 +1872,75 @@
         </div>
     </div>
 
+    <!-- MODAL PREFERENCIAS DE PRIVACIDAD -->
+    <div id="modalLegalPreferencias" class="legal-modal-overlay" onclick="if(event.target===this) cerrarModalLegal('preferencias')">
+        <div class="legal-modal-card">
+            <div class="legal-modal-header">
+                <h3><i class="fas fa-sliders-h"></i> Centro de Preferencias de Privacidad</h3>
+                <button type="button" class="legal-modal-close" onclick="cerrarModalLegal('preferencias')" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="legal-modal-body">
+                <p style="margin-bottom: 16px; font-size: 0.92rem; color: #4b5563;">
+                    En el <strong>Portal ITINEWS</strong> respetamos tu privacidad. Puedes configurar qué tipo de almacenamiento local permites durante tu navegación.
+                </p>
+
+                <!-- Tarjeta: Esenciales -->
+                <div class="cookie-pref-item">
+                    <div class="cookie-pref-info">
+                        <strong><i class="fas fa-lock" style="color: #1f5b4f;"></i> Cookies Técnicas y Esenciales</strong>
+                        <p>Necesarias para la navegación básica, seguridad contra ataques CSRF y gestión de sesiones administrativas. No se pueden desactivar.</p>
+                    </div>
+                    <div class="cookie-pref-switch">
+                        <span class="badge-siempre-activa">Siempre activas</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Funcionales -->
+                <div class="cookie-pref-item">
+                    <div class="cookie-pref-info">
+                        <strong><i class="fas fa-heart" style="color: #7a1830;"></i> Almacenamiento Funcional y Personalización</strong>
+                        <p>Permite guardar tu preferencia de Tema Claro/Oscuro, tu lista local de Revistas Favoritas y calcular tus métricas privadas de lectura en "Mis Estadísticas".</p>
+                    </div>
+                    <div class="cookie-pref-switch">
+                        <label class="switch-pref">
+                            <input type="checkbox" id="checkPrefFuncionales" checked>
+                            <span class="slider-pref"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="msgGuardadoPreferencias" class="msg-pref-guardado" style="display: none;">
+                    <i class="fas fa-circle-check"></i> Tus preferencias de privacidad han sido actualizadas.
+                </div>
+            </div>
+            <div class="legal-modal-footer" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <button type="button" class="btn-cookie-essential" onclick="gestionarCookies('esenciales'); cerrarModalLegal('preferencias');">Solo necesarias</button>
+                <div style="display: flex; gap: 8px;">
+                    <button type="button" class="btn-guardar-pref" onclick="guardarDesdeModalPreferencias()">Guardar preferencias</button>
+                    <button type="button" class="btn-legal-entendido" onclick="gestionarCookies('todas'); cerrarModalLegal('preferencias');">Permitir todas</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- BANNER DE COOKIES FUNCIONALES -->
     <aside id="bannerCookies" class="cookie-banner" role="dialog" aria-labelledby="cookieBannerTitle" aria-describedby="cookieBannerDesc">
         <div class="cookie-banner-header">
             <i class="fas fa-cookie-bite fa-lg"></i>
-            <h4 id="cookieBannerTitle">Privacidad y Almacenamiento Local</h4>
+            <h4 id="cookieBannerTitle">Privacidad y Cookies</h4>
         </div>
         <p id="cookieBannerDesc" class="cookie-banner-text">
-            Utilizamos almacenamiento local funcional para recordar tu tema (claro/oscuro), tus revistas favoritas y calcular tus métricas personales de lectura sin rastreo comercial.
+            Utilizamos cookies esenciales y almacenamiento local funcional para guardar tus favoritos, recordar tu tema visual (claro/oscuro) y tus estadísticas privadas de lectura. No realizamos rastreo comercial.
         </p>
         <div class="cookie-banner-actions">
             <button type="button" class="btn-cookie-accept" onclick="gestionarCookies('todas')">
-                <i class="fas fa-check"></i> Aceptar Funcionales
+                <i class="fas fa-check"></i> Permitir cookies
             </button>
             <button type="button" class="btn-cookie-essential" onclick="gestionarCookies('esenciales')">
-                Solo Esenciales
+                Solo necesarias
             </button>
-            <button type="button" class="btn-cookie-essential" onclick="abrirModalLegal('cookies')" style="border: 1px solid #cbd5e1;">
-                <i class="fas fa-info-circle"></i> Detalles
+            <button type="button" class="btn-cookie-pref" onclick="abrirModalLegal('preferencias')">
+                <i class="fas fa-sliders-h"></i> Preferencias
             </button>
         </div>
     </aside>
@@ -1718,10 +1954,18 @@
             const idMap = {
                 'terminos': 'modalLegalTerminos',
                 'privacidad': 'modalLegalPrivacidad',
-                'cookies': 'modalLegalCookies'
+                'cookies': 'modalLegalCookies',
+                'preferencias': 'modalLegalPreferencias'
             };
             const modal = document.getElementById(idMap[tipo]);
             if (modal) {
+                if (tipo === 'preferencias') {
+                    const consent = localStorage.getItem('itinews_cookies_consent');
+                    const check = document.getElementById('checkPrefFuncionales');
+                    if (check) {
+                        check.checked = (consent !== 'esenciales');
+                    }
+                }
                 modal.classList.add('active');
                 document.body.style.overflow = 'hidden';
             }
@@ -1731,12 +1975,29 @@
             const idMap = {
                 'terminos': 'modalLegalTerminos',
                 'privacidad': 'modalLegalPrivacidad',
-                'cookies': 'modalLegalCookies'
+                'cookies': 'modalLegalCookies',
+                'preferencias': 'modalLegalPreferencias'
             };
             const modal = document.getElementById(idMap[tipo]);
             if (modal) {
                 modal.classList.remove('active');
                 document.body.style.overflow = '';
+            }
+        }
+
+        function guardarDesdeModalPreferencias() {
+            const check = document.getElementById('checkPrefFuncionales');
+            const nivel = (check && check.checked) ? 'todas' : 'esenciales';
+            gestionarCookies(nivel);
+            const msg = document.getElementById('msgGuardadoPreferencias');
+            if (msg) {
+                msg.style.display = 'flex';
+                setTimeout(() => {
+                    msg.style.display = 'none';
+                    cerrarModalLegal('preferencias');
+                }, 800);
+            } else {
+                cerrarModalLegal('preferencias');
             }
         }
 
@@ -1768,6 +2029,7 @@
                     cerrarModalLegal('terminos');
                     cerrarModalLegal('privacidad');
                     cerrarModalLegal('cookies');
+                    cerrarModalLegal('preferencias');
                 }
             });
         });
