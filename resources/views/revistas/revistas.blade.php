@@ -54,7 +54,8 @@
                          data-descripcion="{{ $revista->descripcion }}"
                          data-portada="{{ asset('storage/' . $revista->ruta_portada) }}"
                          data-url-visor="{{ route('revistas.show', $revista) }}"
-                         data-estacion="{{ $revista->fecha_publicacion->format('Y') }}">
+                         data-estacion="{{ $revista->fecha_publicacion->format('Y') }}"
+                         data-destacada="{{ $revista->esDestacada() ? '1' : '0' }}">
                         
                         <div class="revista-img-container">
                             <div class="skeleton-loader"></div>

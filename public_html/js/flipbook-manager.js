@@ -46,6 +46,7 @@ class FlipbookManager {
                 portada: element.dataset.portada,
                 urlVisor: element.dataset.urlVisor,
                 anio: element.dataset.estacion,
+                destacada: element.dataset.destacada === '1',
                 element: element
             });
         });
@@ -547,11 +548,10 @@ class FlipbookManager {
     }
 
     getContenidoDestacadas() {
-        let destacadas = Array.from(this.estadisticas.revistasVistas)
-            .slice(0, 6)
-            .map(id => this.revistasData.find(r => r.id == id))
-            .filter(r => r !== undefined);
+        // Priorizar las revistas marcadas como destacadas por el administrador
+        let destacadas = this.revistasData.filter(r => r.destacada);
         
+        // Si hay menos de 6 destacadas, completar con las más recientes
         if (destacadas.length < 6) {
             const adicionales = this.revistasData
                 .filter(r => !destacadas.includes(r))

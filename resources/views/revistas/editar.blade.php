@@ -75,6 +75,17 @@
                             <span class="pf-help">Ocúltala para retirarla del portal sin borrarla; puedes reactivarla cuando quieras.</span>
                         </div>
 
+                        <div class="pf-field">
+                            <span class="pf-label"><i class="fas fa-star" aria-hidden="true" style="color:#f59e0b;"></i> Revista Destacada</span>
+                            <label class="switch">
+                                <input type="hidden" name="destacada" value="0">
+                                <input type="checkbox" name="destacada" value="1" {{ old('destacada', $revista->esDestacada() ? '1' : '0') ? 'checked' : '' }}>
+                                <span class="track" aria-hidden="true"></span>
+                                <span style="margin-left:10px; font-size:.88rem; color:#6b6b6b;">Mostrar en sección "Revistas Destacadas"</span>
+                            </label>
+                            <span class="pf-help">Si está activa, aparecerá fijada en la sección de destacadas del portal.</span>
+                        </div>
+
                         <div class="pf-field full">
                             <label for="descripcion" class="pf-label">
                                 <i class="fas fa-align-left" aria-hidden="true"></i> Descripción

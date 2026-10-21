@@ -54,6 +54,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/revistas/{revista}', [RevistaController::class, 'destroy'])->name('revistas.destroy');
         Route::post('/revistas/{revista}/reprocesar', [RevistaController::class, 'reprocesar'])->name('revistas.reprocesar');
         Route::patch('/revistas/{revista}/toggle', [RevistaController::class, 'toggleActivo'])->name('revistas.toggle');
+        Route::patch('/revistas/{revista}/toggle-destacada', [RevistaController::class, 'toggleDestacada'])->name('revistas.toggle-destacada');
 
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
         Route::get('/users/create', [UserController::class, 'create'])->name('users.create');

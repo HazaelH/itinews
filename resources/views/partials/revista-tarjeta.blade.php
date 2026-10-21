@@ -23,7 +23,14 @@
     </a>
 
     <div class="rev-tarjeta-cuerpo">
-        <h4 class="rev-titulo revista-titulo">{{ $revista->titulo }}</h4>
+        <h4 class="rev-titulo revista-titulo">
+            {{ $revista->titulo }}
+            @if($revista->esDestacada())
+                <span class="badge-destacada" title="Revista Destacada" style="display:inline-flex; align-items:center; gap:4px; font-size:0.72rem; padding:2px 7px; background:rgba(245, 158, 11, 0.15); color:#d97706; border-radius:999px; font-weight:600; vertical-align:middle; margin-left:4px;">
+                    <i class="fas fa-star" style="font-size:0.68rem; color:#f59e0b;"></i> Destacada
+                </span>
+            @endif
+        </h4>
 
         @if($revista->descripcion)
             <p class="rev-desc revista-descripcion">

@@ -28,6 +28,11 @@
                 <a class="rev-titulo revista-titulo" href="{{ route('revistas.show', $revista) }}">
                     {{ $revista->titulo }}
                 </a>
+                @if($revista->esDestacada())
+                    <span class="badge-destacada" title="Revista Destacada" style="display:inline-flex; align-items:center; gap:4px; font-size:0.72rem; padding:2px 7px; background:rgba(245, 158, 11, 0.15); color:#d97706; border-radius:999px; width:fit-content; font-weight:600; margin-top:2px;">
+                        <i class="fas fa-star" style="font-size:0.68rem; color:#f59e0b;"></i> Destacada
+                    </span>
+                @endif
                 @if($revista->descripcion)
                     <span class="rev-desc revista-descripcion">
                         {{ \Illuminate\Support\Str::limit($revista->descripcion, 80) }}

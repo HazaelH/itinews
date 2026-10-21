@@ -57,6 +57,16 @@
                             </label>
                         </div>
 
+                        <div class="pf-field">
+                            <span class="pf-label"><i class="fas fa-star" aria-hidden="true" style="color:#f59e0b;"></i> Revista Destacada</span>
+                            <label class="switch">
+                                <input type="hidden" name="destacada" value="0">
+                                <input type="checkbox" name="destacada" value="1" {{ old('destacada', '0') === '1' ? 'checked' : '' }}>
+                                <span class="track" aria-hidden="true"></span>
+                                <span style="margin-left:10px; font-size:.88rem; color:#6b6b6b;">Mostrar en sección "Revistas Destacadas"</span>
+                            </label>
+                        </div>
+
                         <div class="pf-field full">
                             <label for="descripcion" class="pf-label">
                                 <i class="fas fa-align-left" aria-hidden="true"></i> Descripción

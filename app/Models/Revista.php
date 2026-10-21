@@ -19,12 +19,14 @@ class Revista extends Model
         'estado_procesamiento',
         'progreso',
         'total_paginas',
-        'activo'
+        'activo',
+        'destacada'
     ];
 
     protected $casts = [
         'fecha_publicacion' => 'date',
         'activo' => 'boolean',
+        'destacada' => 'boolean',
     ];
 
     protected $attributes = [
@@ -32,6 +34,7 @@ class Revista extends Model
         'progreso' => 0,
         'total_paginas' => 0,
         'activo' => true,
+        'destacada' => false,
     ];
 
     public function paginas(): HasMany
@@ -48,6 +51,14 @@ class Revista extends Model
     }
 
     /**
+     * Solo revistas marcadas como destacadas.
+     */
+    public function scopeDestacadas($query)
+    {
+        return $query->where('destacada', true);
+    }
+
+    /**
      * Orden cronológico de publicación: más recientes primero.
      * En caso de empate en la fecha de publicación, desempata por creación más reciente.
      */
@@ -61,6 +72,11 @@ class Revista extends Model
     {
         // Las revistas existentes sin el campo definido se consideran activas.
         return (bool) ($this->activo ?? true);
+    }
+
+    public function esDestacada(): bool
+    {
+        return (bool) ($this->destacada ?? false);
     }
 
     /**

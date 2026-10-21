@@ -46,6 +46,7 @@ class RevistaController extends Controller
                 'progreso' => 0,
                 'total_paginas' => 0,
                 'activo' => $request->has('activo') ? $request->boolean('activo') : true,
+                'destacada' => $request->boolean('destacada'),
             ]);
 
             ProcesarPdfJob::dispatch($revista, $nombreCarpeta);
@@ -183,6 +184,10 @@ class RevistaController extends Controller
             // Solo actualizamos la visibilidad si el formulario la envía.
             if ($request->has('activo')) {
                 $datosActualizacion['activo'] = $request->boolean('activo');
+            }
+
+            if ($request->has('destacada')) {
+                $datosActualizacion['destacada'] = $request->boolean('destacada');
             }
 
             if ($request->hasFile('ruta_portada')) {
@@ -386,5 +391,17 @@ class RevistaController extends Controller
             'error' => $revista->tieneError(),
             'progreso_porcentaje' => $revista->progreso_porcentaje
         ]);
+    }
+
+    public function toggleDestacada(Revista $revista)
+    {
+        if (Auth::user()->role !== 'admin') {
+            return redirect()->route('dashboard')->with('error', 'No tienes permisos.');
+        }
+
+        $revista->update(['destacada' => ! $revista->esDestacada()]);
+        $mensaje = $revista->esDestacada() ? 'Revista marcada como Destacada.' : 'Revista retirada de Destacadas.';
+
+        return back()->with('success', $mensaje);
     }
 }
