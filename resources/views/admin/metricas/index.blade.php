@@ -18,7 +18,6 @@
                         <option value="365">Último año</option>
                     </select>
                     <button type="button" id="metricasRefresh" class="btn-panel"><i class="fas fa-rotate"></i> Actualizar</button>
-                    <button type="button" id="metricasExport" class="btn-panel vino"><i class="fas fa-file-csv"></i> Exportar CSV</button>
                 </div>
             </header>
 

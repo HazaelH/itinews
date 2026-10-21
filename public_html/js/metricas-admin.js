@@ -151,73 +151,6 @@
     }
 
     // ------------------------------------------------------------------
-    // Exportar CSV
-    // ------------------------------------------------------------------
-    function csvCell(v) {
-        v = (v === null || v === undefined) ? '' : String(v);
-        if (/[",\n;]/.test(v)) { v = '"' + v.replace(/"/g, '""') + '"'; }
-        return v;
-    }
-
-    function csvFila(fila) { return fila.map(csvCell).join(','); }
-
-    function exportarCSV() {
-        if (!ultimoDato) { return; }
-        var d = ultimoDato;
-        var lineas = [];
-
-        lineas.push(csvFila(['Reporte de métricas ITINEWS']));
-        lineas.push(csvFila(['Rango', d.rango.desde + ' a ' + d.rango.hasta]));
-        lineas.push('');
-
-        lineas.push(csvFila(['Indicadores']));
-        lineas.push(csvFila(['Indicador', 'Valor']));
-        [
-            ['Visitas a revistas', d.kpis.visitas_revista],
-            ['Aperturas del portal', d.kpis.visitas_portal],
-            ['Visitantes únicos', d.kpis.visitantes_unicos],
-            ['Visitantes recurrentes', d.kpis.visitantes_recurrentes],
-            ['Tiempo promedio (seg)', d.kpis.tiempo_promedio],
-            ['Páginas por sesión', d.kpis.paginas_promedio],
-            ['% finalización', d.kpis.tasa_finalizacion]
-        ].forEach(function (f) { lineas.push(csvFila(f)); });
-        lineas.push('');
-
-        function seccion(titulo, colA, colB, filas) {
-            lineas.push(csvFila([titulo]));
-            lineas.push(csvFila([colA, colB]));
-            filas.forEach(function (f) { lineas.push(csvFila(f)); });
-            lineas.push('');
-        }
-
-        seccion('Revistas más abiertas', 'Revista', 'Visitas',
-            d.revistas_mas_vistas.map(function (r) { return [r.titulo, r.total]; }));
-        seccion('Dispositivos', 'Dispositivo', 'Total',
-            d.dispositivos.map(function (r) { return [DEVICE_LABELS[r.label] || r.label, r.total]; }));
-        seccion('Sistemas operativos', 'Sistema', 'Total',
-            d.sistemas.map(function (r) { return [r.label, r.total]; }));
-        seccion('Navegadores', 'Navegador', 'Total',
-            d.navegadores.map(function (r) { return [r.label, r.total]; }));
-        seccion('Revistas en favoritos', 'Revista', 'Favoritos',
-            d.favoritos.map(function (r) { return [r.titulo, r.total]; }));
-        seccion('Páginas más leídas por revista', 'Revista', 'Lecturas',
-            (d.paginas_mas_vistas || []).map(function (r) {
-                return [r.revista_titulo || 'Revista #' + r.revista_id, r.total];
-            }));
-
-        var contenido = '\uFEFF' + lineas.join('\r\n');
-        var blob = new Blob([contenido], { type: 'text/csv;charset=utf-8;' });
-        var url = URL.createObjectURL(blob);
-        var a = document.createElement('a');
-        a.href = url;
-        a.download = 'metricas-itinews-' + d.rango.desde + '_' + d.rango.hasta + '.csv';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    }
-
-    // ------------------------------------------------------------------
     // Arranque
     // ------------------------------------------------------------------
     function arrancar() {
@@ -231,7 +164,6 @@
 
         if (el('metricasRefresh')) { el('metricasRefresh').addEventListener('click', cargar); }
         if (el('metricasRango')) { el('metricasRango').addEventListener('change', cargar); }
-        if (el('metricasExport')) { el('metricasExport').addEventListener('click', exportarCSV); }
 
         cargar();
     }
