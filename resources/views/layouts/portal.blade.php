@@ -56,7 +56,7 @@
 
         /* Sidebar header */
         .sidebar-header {
-            background: linear-gradient(135deg, #1f5b4f, #9ebbb3) !important;
+            background: #1f5b4f !important;
         }
 
         /* Badges */
@@ -170,7 +170,7 @@
 
         /* Dark mode overrides */
         .dark-mode .sidebar-header {
-            background: linear-gradient(135deg, #3a9a8a, #2a7a6a) !important;
+            background: #164236 !important;
         }
 
         .dark-mode .estacion-badge,
@@ -230,11 +230,54 @@
             background-image: none !important;
         }
 
-        /* Sidebar semi-transparente */
+        /* Sidebar semi-transparente y sin scroll horizontal */
         .sidebar {
-            background-color: rgba(255, 255, 255, 0.85) !important; 
+            background-color: rgba(255, 255, 255, 0.92) !important; 
             backdrop-filter: blur(10px) !important; 
-            border-right: 1px solid rgba(125, 75, 75, 0.5); 
+            border-right: 1px solid rgba(125, 75, 75, 0.3) !important;
+            overflow-x: hidden !important;
+            max-width: 280px !important;
+            box-sizing: border-box !important;
+        }
+
+        .sidebar-nav {
+            overflow-x: hidden !important;
+            overflow-y: auto !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .nav-section {
+            max-width: 100% !important;
+            overflow-x: hidden !important;
+            box-sizing: border-box !important;
+        }
+
+        .sidebar-header::after {
+            display: none !important;
+        }
+
+        .nav-link, .filter-btn, .quick-btn, .theme-toggle-btn.nav-style {
+            box-sizing: border-box !important;
+            max-width: 100% !important;
+        }
+
+        .nav-link:hover, .filter-btn:hover, .quick-btn:hover, .theme-toggle-btn.nav-style:hover {
+            transform: none !important;
+            padding-left: 20px !important;
+            background: rgba(31, 91, 79, 0.08) !important;
+            color: #1f5b4f !important;
+            border-left: 4px solid #1f5b4f !important;
+        }
+
+        .dark-mode .sidebar-nav .nav-link:hover, 
+        .dark-mode .sidebar-nav .filter-btn:hover, 
+        .dark-mode .sidebar-nav .quick-btn:hover,
+        .dark-mode .sidebar-nav .theme-toggle-btn:hover {
+            background: rgba(58, 154, 138, 0.16) !important;
+            color: #72dfca !important;
+            border-left: 4px solid #3a9a8a !important;
         }
 
         /* Sidebar header */
@@ -639,15 +682,45 @@
             background: rgba(31, 91, 79, 0.08) !important;
             color: #1f5b4f !important;
             width: fit-content !important;
+            font-weight: 600 !important;
         }
         .meta-pill.pill-tiempo {
             background: rgba(122, 24, 48, 0.08) !important;
             color: #7a1830 !important;
             font-weight: 700 !important;
         }
-        .meta-pill.pill-fecha {
+        .meta-pill.pill-fecha,
+        .meta-pill.pill-reciente {
             background: rgba(0, 0, 0, 0.05) !important;
             color: #4b5563 !important;
+        }
+        .meta-pill.pill-destacada {
+            background: rgba(122, 24, 48, 0.08) !important;
+            color: #7a1830 !important;
+            font-weight: 700 !important;
+        }
+
+        body.dark-mode .meta-pill {
+            background: rgba(58, 154, 138, 0.22) !important;
+            color: #a7f3d0 !important;
+            border: 1px solid rgba(58, 154, 138, 0.35) !important;
+        }
+        body.dark-mode .meta-pill.pill-tiempo {
+            background: rgba(220, 38, 38, 0.22) !important;
+            color: #fca5a5 !important;
+            border: 1px solid rgba(220, 38, 38, 0.35) !important;
+        }
+        body.dark-mode .meta-pill.pill-fecha,
+        body.dark-mode .meta-pill.pill-reciente {
+            background: rgba(255, 255, 255, 0.1) !important;
+            color: #f1f5f9 !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        }
+        body.dark-mode .meta-pill.pill-destacada {
+            background: rgba(245, 158, 11, 0.22) !important;
+            color: #fde047 !important;
+            border: 1px solid rgba(245, 158, 11, 0.4) !important;
+            font-weight: 700 !important;
         }
 
         /* Modal propio de confirmación de reinicio */
@@ -1011,6 +1084,373 @@
             color: #e5e7eb;
         }
 
+        /* Tipografía de Spotlight */
+        .stats-spotlight-title {
+            margin: 0 0 6px 0;
+            font-size: 1.35rem;
+            color: #164236;
+            font-weight: 800;
+        }
+        .stats-spotlight-desc {
+            margin: 0 0 12px 0;
+            color: #4b5563;
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+        body.dark-mode .stats-spotlight-title {
+            color: #ffffff !important;
+        }
+        body.dark-mode .stats-spotlight-desc {
+            color: #e2e8f0 !important;
+        }
+        body.dark-mode .stats-spotlight-desc strong {
+            color: #72dfca !important;
+        }
+
+        /* Tipografía y elementos de Acerca del Portal */
+        .acerca-hero-title {
+            margin: 0 0 10px 0;
+            font-size: 1.45rem;
+            color: #164236;
+            font-weight: 800;
+            line-height: 1.3;
+        }
+        .acerca-hero-desc {
+            margin: 0;
+            color: #4b5563;
+            font-size: 0.96rem;
+            line-height: 1.6;
+        }
+        .acerca-feat-title {
+            margin: 0 0 8px 0;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+        .acerca-feat-title.feat-title-1 { color: #164236; }
+        .acerca-feat-title.feat-title-2 { color: #7a1830; }
+        .acerca-feat-title.feat-title-3 { color: #1f5b4f; }
+        .acerca-feat-desc {
+            margin: 0;
+            color: #4b5563;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+        .acerca-cta-title {
+            margin: 0 0 6px 0;
+            font-size: 1.15rem;
+            color: #164236;
+            font-weight: 700;
+        }
+        .acerca-cta-desc {
+            margin: 0 0 16px 0;
+            color: #4b5563;
+            font-size: 0.9rem;
+        }
+        .acerca-logo-wrap {
+            width: 110px;
+            height: 110px;
+            border-radius: 16px;
+            background: #ffffff;
+            border: 2px solid rgba(31, 91, 79, 0.2);
+            padding: 8px;
+            box-sizing: border-box;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .acerca-logo-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        body.dark-mode .acerca-hero-title {
+            color: #ffffff !important;
+        }
+        body.dark-mode .acerca-hero-desc {
+            color: #f1f5f9 !important;
+        }
+        body.dark-mode .acerca-hero-desc strong {
+            color: #72dfca !important;
+        }
+        body.dark-mode .acerca-feat-title.feat-title-1 {
+            color: #6ee7b7 !important;
+        }
+        body.dark-mode .acerca-feat-title.feat-title-2 {
+            color: #fca5a5 !important;
+        }
+        body.dark-mode .acerca-feat-title.feat-title-3 {
+            color: #93c5fd !important;
+        }
+        body.dark-mode .acerca-feat-desc {
+            color: #cbd5e1 !important;
+        }
+        body.dark-mode .acerca-cta-title {
+            color: #ffffff !important;
+        }
+        body.dark-mode .acerca-cta-desc {
+            color: #cbd5e1 !important;
+        }
+        body.dark-mode .acerca-logo-wrap {
+            background: #1e2422 !important;
+            border-color: rgba(255, 255, 255, 0.15) !important;
+        }
+
+        /* Footer y enlaces legales en Portal */
+        .portal-footer {
+            text-align: center;
+            padding: 2.2rem 20px 2.8rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(10px);
+            margin-left: 280px;
+            width: calc(100% - 280px);
+            box-sizing: border-box;
+            transition: all 0.4s ease;
+        }
+        body.dark-mode .portal-footer {
+            background: rgba(25, 26, 30, 0.94) !important;
+            border-top-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        .portal-footer-content p {
+            margin: 0 0 10px 0;
+            font-size: 0.93rem;
+            color: #4b5563;
+        }
+        body.dark-mode .portal-footer-content p {
+            color: #cbd5e1 !important;
+        }
+        .portal-legal-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .legal-link-btn {
+            background: none;
+            border: none;
+            color: #1f5b4f;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 4px 6px;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: color 0.2s ease;
+        }
+        .legal-link-btn:hover {
+            color: #164236;
+        }
+        body.dark-mode .legal-link-btn {
+            color: #72dfca !important;
+        }
+        body.dark-mode .legal-link-btn:hover {
+            color: #a7f3d0 !important;
+        }
+        .legal-sep {
+            color: #9ca3af;
+            font-size: 0.8rem;
+        }
+
+        /* Modal Legal (Términos, Privacidad, Cookies) */
+        .legal-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 20, 25, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 100000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            animation: fadeIn 0.25s ease;
+        }
+        .legal-modal-overlay.active {
+            display: flex;
+        }
+        .legal-modal-card {
+            background: #ffffff;
+            border-radius: 20px;
+            max-width: 680px;
+            width: 100%;
+            max-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        body.dark-mode .legal-modal-card {
+            background: #1e2422 !important;
+            border-color: rgba(255, 255, 255, 0.15) !important;
+            color: #f1f5f9;
+        }
+        .legal-modal-header {
+            padding: 20px 24px;
+            background: #1f5b4f;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .legal-modal-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .legal-modal-close {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.4rem;
+            cursor: pointer;
+            opacity: 0.85;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .legal-modal-close:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        .legal-modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            font-size: 0.92rem;
+            line-height: 1.65;
+            color: #374151;
+        }
+        body.dark-mode .legal-modal-body {
+            color: #cbd5e1;
+        }
+        .legal-modal-body h4 {
+            color: #164236;
+            margin: 18px 0 6px 0;
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+        body.dark-mode .legal-modal-body h4 {
+            color: #6ee7b7;
+        }
+        .legal-modal-footer {
+            padding: 16px 24px;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: flex-end;
+        }
+        body.dark-mode .legal-modal-footer {
+            background: #161b1a;
+            border-top-color: rgba(255, 255, 255, 0.1);
+        }
+        .btn-legal-entendido {
+            background: #1f5b4f;
+            color: #fff;
+            border: none;
+            padding: 8px 22px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .btn-legal-entendido:hover {
+            background: #164236;
+        }
+
+        /* Cookie Consent Banner */
+        .cookie-banner {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            max-width: 480px;
+            width: calc(100% - 40px);
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+            border: 2px solid #1f5b4f;
+            z-index: 99999;
+            box-sizing: border-box;
+            display: none;
+            animation: slideUp 0.3s ease;
+        }
+        body.dark-mode .cookie-banner {
+            background: #1e2422 !important;
+            border-color: #3a9a8a !important;
+            color: #f1f5f9;
+        }
+        .cookie-banner-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            color: #164236;
+        }
+        body.dark-mode .cookie-banner-header {
+            color: #6ee7b7;
+        }
+        .cookie-banner-header h4 {
+            margin: 0;
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+        .cookie-banner-text {
+            font-size: 0.86rem;
+            color: #4b5563;
+            line-height: 1.5;
+            margin: 0 0 16px 0;
+        }
+        body.dark-mode .cookie-banner-text {
+            color: #cbd5e1;
+        }
+        .cookie-banner-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn-cookie-accept {
+            flex: 1;
+            background: #1f5b4f;
+            color: #fff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.86rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            text-align: center;
+        }
+        .btn-cookie-accept:hover {
+            background: #164236;
+        }
+        .btn-cookie-essential {
+            background: #e5e7eb;
+            color: #374151;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.86rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            text-align: center;
+        }
+        .btn-cookie-essential:hover {
+            background: #d1d5db;
+        }
+        body.dark-mode .btn-cookie-essential {
+            background: #374151;
+            color: #e5e7eb;
+        }
+
         @media (max-width: 600px) {
             .stats-spotlight-card,
             .acerca-hero-card {
@@ -1152,13 +1592,186 @@
         </section>
     </main>
 
-    <footer class="footer">
-        <p>&copy; 2025 Portal ITINEWS - Universidad Politécnica del Valle de Toluca</p>
+    <footer class="portal-footer">
+        <div class="portal-footer-content">
+            <p>&copy; {{ date('Y') }} Portal ITINEWS - Universidad Politécnica del Valle de Toluca</p>
+            <div class="portal-legal-links">
+                <button type="button" class="legal-link-btn" onclick="abrirModalLegal('terminos')">Términos y Condiciones</button>
+                <span class="legal-sep">&bull;</span>
+                <button type="button" class="legal-link-btn" onclick="abrirModalLegal('privacidad')">Aviso de Privacidad</button>
+                <span class="legal-sep">&bull;</span>
+                <button type="button" class="legal-link-btn" onclick="abrirModalLegal('cookies')">Política de Cookies</button>
+                <span class="legal-sep">&bull;</span>
+                <button type="button" class="legal-link-btn" onclick="mostrarBannerCookies(true)">Preferencias de Privacidad</button>
+            </div>
+        </div>
     </footer>
+
+    <!-- MODAL TÉRMINOS Y CONDICIONES -->
+    <div id="modalLegalTerminos" class="legal-modal-overlay" onclick="if(event.target===this) cerrarModalLegal('terminos')">
+        <div class="legal-modal-card">
+            <div class="legal-modal-header">
+                <h3><i class="fas fa-file-contract"></i> Términos y Condiciones de Uso</h3>
+                <button type="button" class="legal-modal-close" onclick="cerrarModalLegal('terminos')" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="legal-modal-body">
+                <h4>1. Aceptación de los Términos</h4>
+                <p>Al acceder y utilizar el <strong>Portal ITINEWS</strong> de la Universidad Politécnica del Valle de Toluca (UPVT), usted acepta sujetarse a los presentes Términos y Condiciones de uso con fines exclusivamente académicos, informativos y de divulgación científica.</p>
+
+                <h4>2. Propiedad Intelectual y Derechos de Autor</h4>
+                <p>Todo el contenido publicado, incluyendo artículos, reseñas, imágenes, diseños editoriales, portadas y logotipos, se encuentra protegido por las leyes de propiedad intelectual mexicanas e internacionales. Los autores de los artículos conservan sus derechos morales, otorgando a la UPVT el derecho de difusión no comercial.</p>
+
+                <h4>3. Uso Permitido y Citas</h4>
+                <p>Se autoriza la consulta, lectura y cita académica de las publicaciones siempre que se otorgue el debido crédito al autor y a la revista ITINEWS UPVT, indicando el número y año de la edición correspondiente. Queda prohibida la reproducción total o parcial con fines de lucro sin autorización previa por escrito.</p>
+
+                <h4>4. Responsabilidad del Usuario</h4>
+                <p>El usuario se compromete a hacer un uso lícito y respetuoso de los recursos del portal, absteniéndose de realizar actos que puedan dañar, inutilizar, sobrecargar o deteriorar los servidores o servicios del sistema.</p>
+            </div>
+            <div class="legal-modal-footer">
+                <button type="button" class="btn-legal-entendido" onclick="cerrarModalLegal('terminos')">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL AVISO DE PRIVACIDAD -->
+    <div id="modalLegalPrivacidad" class="legal-modal-overlay" onclick="if(event.target===this) cerrarModalLegal('privacidad')">
+        <div class="legal-modal-card">
+            <div class="legal-modal-header">
+                <h3><i class="fas fa-shield-alt"></i> Aviso de Privacidad Integral</h3>
+                <button type="button" class="legal-modal-close" onclick="cerrarModalLegal('privacidad')" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="legal-modal-body">
+                <h4>1. Responsable del Tratamiento</h4>
+                <p>La <strong>Universidad Politécnica del Valle de Toluca (UPVT)</strong>, a través de la División de Ingeniería en Tecnologías de la Información, es la responsable del tratamiento de los datos en cumplimiento con la <em>Ley General de Protección de Datos Personales en Posesión de Sujetos Obligados</em>.</p>
+
+                <h4>2. Datos Recabados y Finalidad</h4>
+                <p>El Portal ITINEWS es un repositorio de libre acceso y <strong>no solicita ni almacena datos personales sensibles</strong> de los lectores generales. Las estadísticas de lectura (tiempo dedicado, páginas visitadas y revistas favoritas) se procesan y almacenan de forma local en su navegador web.</p>
+
+                <h4>3. Métricas Anónimas</h4>
+                <p>Para fines de mejora continua y acreditación académica, el portal puede registrar métricas técnicas agregadas y anónimas (ediciones más consultadas y concurrencia) sin vincularlas a su identidad ni a direcciones IP personales.</p>
+
+                <h4>4. Ejercicio de Derechos ARCO</h4>
+                <p>Para cualquier consulta referente a la privacidad del portal o el ejercicio de derechos ARCO, puede comunicarse con la Unidad de Transparencia de la UPVT a través de sus canales institucionales oficiales.</p>
+            </div>
+            <div class="legal-modal-footer">
+                <button type="button" class="btn-legal-entendido" onclick="cerrarModalLegal('privacidad')">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL POLÍTICA DE COOKIES -->
+    <div id="modalLegalCookies" class="legal-modal-overlay" onclick="if(event.target===this) cerrarModalLegal('cookies')">
+        <div class="legal-modal-card">
+            <div class="legal-modal-header">
+                <h3><i class="fas fa-cookie-bite"></i> Política de Cookies y Almacenamiento</h3>
+                <button type="button" class="legal-modal-close" onclick="cerrarModalLegal('cookies')" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="legal-modal-body">
+                <h4>1. ¿Qué tecnologías utilizamos?</h4>
+                <p>El Portal ITINEWS utiliza <strong>almacenamiento web funcional (LocalStorage)</strong> y cookies técnicas esenciales. No utilizamos cookies publicitarias, comerciales ni rastreadores de terceros.</p>
+
+                <h4>2. Finalidades Funcionales</h4>
+                <ul>
+                    <li><strong>Preferencia Visual:</strong> Recordar si prefieres navegar en Modo Claro o Modo Oscuro.</li>
+                    <li><strong>Favoritos:</strong> Guardar las revistas que marcas con corazón en tu biblioteca personal del navegador.</li>
+                    <li><strong>Métricas de Lectura Personal:</strong> Permitir que lleves el control del tiempo dedicado y páginas leídas en tu sección "Mis Estadísticas".</li>
+                    <li><strong>Sesión Administrativa:</strong> En el caso de docentes y administradores, validar el token CSRF y la sesión segura de Laravel.</li>
+                </ul>
+
+                <h4>3. Control y Eliminación</h4>
+                <p>Puedes borrar tus datos locales en cualquier momento desde la sección <em>Mis Estadísticas &gt; Reiniciar Estadísticas</em> o limpiando el almacenamiento de tu navegador.</p>
+            </div>
+            <div class="legal-modal-footer">
+                <button type="button" class="btn-legal-entendido" onclick="cerrarModalLegal('cookies')">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BANNER DE COOKIES FUNCIONALES -->
+    <aside id="bannerCookies" class="cookie-banner" role="dialog" aria-labelledby="cookieBannerTitle" aria-describedby="cookieBannerDesc">
+        <div class="cookie-banner-header">
+            <i class="fas fa-cookie-bite fa-lg"></i>
+            <h4 id="cookieBannerTitle">Privacidad y Almacenamiento Local</h4>
+        </div>
+        <p id="cookieBannerDesc" class="cookie-banner-text">
+            Utilizamos almacenamiento local funcional para recordar tu tema (claro/oscuro), tus revistas favoritas y calcular tus métricas personales de lectura sin rastreo comercial.
+        </p>
+        <div class="cookie-banner-actions">
+            <button type="button" class="btn-cookie-accept" onclick="gestionarCookies('todas')">
+                <i class="fas fa-check"></i> Aceptar Funcionales
+            </button>
+            <button type="button" class="btn-cookie-essential" onclick="gestionarCookies('esenciales')">
+                Solo Esenciales
+            </button>
+            <button type="button" class="btn-cookie-essential" onclick="abrirModalLegal('cookies')" style="border: 1px solid #cbd5e1;">
+                <i class="fas fa-info-circle"></i> Detalles
+            </button>
+        </div>
+    </aside>
     
     <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
     <script src="{{ asset('js/metricas.js') }}" defer></script>
     <script src="{{ asset('js/carrusel-fondos.js') }}" defer></script>
+    
+    <script>
+        function abrirModalLegal(tipo) {
+            const idMap = {
+                'terminos': 'modalLegalTerminos',
+                'privacidad': 'modalLegalPrivacidad',
+                'cookies': 'modalLegalCookies'
+            };
+            const modal = document.getElementById(idMap[tipo]);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function cerrarModalLegal(tipo) {
+            const idMap = {
+                'terminos': 'modalLegalTerminos',
+                'privacidad': 'modalLegalPrivacidad',
+                'cookies': 'modalLegalCookies'
+            };
+            const modal = document.getElementById(idMap[tipo]);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function gestionarCookies(nivel) {
+            try {
+                localStorage.setItem('itinews_cookies_consent', nivel);
+                localStorage.setItem('itinews_cookies_date', new Date().toISOString());
+            } catch(e) {}
+            const banner = document.getElementById('bannerCookies');
+            if (banner) banner.style.display = 'none';
+        }
+
+        function mostrarBannerCookies(forzar = false) {
+            const banner = document.getElementById('bannerCookies');
+            if (!banner) return;
+            const consent = localStorage.getItem('itinews_cookies_consent');
+            if (!consent || forzar) {
+                banner.style.display = 'block';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                mostrarBannerCookies(false);
+            }, 800);
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    cerrarModalLegal('terminos');
+                    cerrarModalLegal('privacidad');
+                    cerrarModalLegal('cookies');
+                }
+            });
+        });
+    </script>
     @stack('scripts')
 </body>
 </html>

@@ -560,7 +560,7 @@ class FlipbookManager {
         }
 
         const gridHTML = destacadas.map((r, idx) => {
-            const footerMeta = `<span class="meta-pill" style="background: rgba(122,24,48,0.08); color: #7a1830; font-weight: 700;"><i class="fas fa-fire"></i> Destacada #${idx + 1}</span>`;
+            const footerMeta = `<span class="meta-pill pill-destacada"><i class="fas fa-fire"></i> Destacada #${idx + 1}</span>`;
             return this.generarTarjetaEditorial(r, { footerMeta });
         }).join('');
 
@@ -749,8 +749,8 @@ class FlipbookManager {
                             <span class="stats-spotlight-badge">
                                 <i class="fas fa-trophy"></i> Revista a la que más tiempo has dedicado
                             </span>
-                            <h3 style="margin: 0 0 6px 0; font-size: 1.35rem; color: #164236;">${topRevista.titulo}</h3>
-                            <p style="margin: 0 0 12px 0; color: #4b5563; font-size: 0.92rem;">
+                            <h3 class="stats-spotlight-title">${topRevista.titulo}</h3>
+                            <p class="stats-spotlight-desc">
                                 Has invertido <strong>${this.formatearTiempoLectura(topRevista.tiempo)}</strong> leyendo esta publicación académica.
                             </p>
                             <a href="${topRevista.urlVisor}" class="stats-btn-continuar" style="padding: 9px 18px; font-size: 0.92rem;">
@@ -852,16 +852,16 @@ class FlipbookManager {
                 <!-- HERO INSTITUCIONAL -->
                 <div class="acerca-hero-card">
                     <div class="acerca-logo-wrap">
-                        <img src="/assets/img/logo-upvt.png" alt="Logo UPVT" onerror="this.src='/assets/img/logo-dark.png'">
+                        <img src="/img/logo.jpg" alt="Logo UPVT" class="acerca-logo-img">
                     </div>
                     <div>
                         <span class="stats-spotlight-badge" style="background: #7a1830; margin-bottom: 8px;">
                             <i class="fas fa-graduation-cap"></i> Universidad Politécnica del Valle de Toluca
                         </span>
-                        <h3 style="margin: 0 0 10px 0; font-size: 1.45rem; color: #164236; font-weight: 800;">
+                        <h3 class="acerca-hero-title">
                             División de Ingeniería en Tecnologías de la Información e Innovación Digital
                         </h3>
-                        <p style="margin: 0; color: #4b5563; font-size: 0.96rem; line-height: 1.6;">
+                        <p class="acerca-hero-desc">
                             El <strong>Portal ITINEWS</strong> es el repositorio oficial interactivo creado para preservar, difundir y compartir las publicaciones y artículos de investigación desarrollados por docentes, estudiantes y egresados de nuestra casa de estudios.
                         </p>
                     </div>
@@ -873,8 +873,8 @@ class FlipbookManager {
                         <div class="acerca-feat-icon feat-1">
                             <i class="fas fa-book-open-reader"></i>
                         </div>
-                        <h4 style="margin: 0 0 8px 0; font-size: 1.15rem; color: #164236; font-weight: 700;">Visor Flipbook 3D</h4>
-                        <p style="margin: 0; color: #4b5563; font-size: 0.88rem; line-height: 1.5;">
+                        <h4 class="acerca-feat-title feat-title-1">Visor Flipbook 3D</h4>
+                        <p class="acerca-feat-desc">
                             Experiencia inmersiva con cambio de página realista, soporte táctil responsivo, zoom de alta fidelidad y modo pantalla completa.
                         </p>
                     </div>
@@ -883,8 +883,8 @@ class FlipbookManager {
                         <div class="acerca-feat-icon feat-2">
                             <i class="fas fa-chart-pie"></i>
                         </div>
-                        <h4 style="margin: 0 0 8px 0; font-size: 1.15rem; color: #7a1830; font-weight: 700;">Estadísticas en Tiempo Real</h4>
-                        <p style="margin: 0; color: #4b5563; font-size: 0.88rem; line-height: 1.5;">
+                        <h4 class="acerca-feat-title feat-title-2">Estadísticas en Tiempo Real</h4>
+                        <p class="acerca-feat-desc">
                             Métricas de lectura personalizadas que registran páginas leídas, tiempo invertido por revista y revistas preferidas en tu navegador.
                         </p>
                     </div>
@@ -893,8 +893,8 @@ class FlipbookManager {
                         <div class="acerca-feat-icon feat-3">
                             <i class="fas fa-laptop-code"></i>
                         </div>
-                        <h4 style="margin: 0 0 8px 0; font-size: 1.15rem; color: #1f5b4f; font-weight: 700;">Tecnología de Vanguardia</h4>
-                        <p style="margin: 0; color: #4b5563; font-size: 0.88rem; line-height: 1.5;">
+                        <h4 class="acerca-feat-title feat-title-3">Tecnología de Vanguardia</h4>
+                        <p class="acerca-feat-desc">
                             Optimización WebP ultrarrápida, arquitectura SPA ligera, motor StPageFlip, Laravel y persistencia local sin cookies invasivas.
                         </p>
                     </div>
@@ -903,8 +903,8 @@ class FlipbookManager {
                 <!-- ACCIÓN -->
                 <div class="stats-section-header" style="justify-content: center; text-align: center; padding: 25px;">
                     <div>
-                        <h4 style="margin: 0 0 6px 0; font-size: 1.15rem; color: #164236;">¿Listo para explorar el conocimiento UPVT?</h4>
-                        <p style="margin: 0 0 16px 0; color: #4b5563; font-size: 0.9rem;">Accede a todas las ediciones organizadas por cuatrimestre y año académico.</p>
+                        <h4 class="acerca-cta-title">¿Listo para explorar el conocimiento UPVT?</h4>
+                        <p class="acerca-cta-desc">Accede a todas las ediciones organizadas por cuatrimestre y año académico.</p>
                         <button class="stats-btn-continuar" style="padding: 10px 24px; font-size: 0.95rem; margin: 0 auto; display: inline-flex;" onclick="flipbookManager.volverAGaleria()">
                             <i class="fas fa-compass"></i> Explorar Catálogo Completo
                         </button>

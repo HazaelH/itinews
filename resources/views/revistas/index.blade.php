@@ -272,24 +272,24 @@
         }
 
         /* ============================================
-           NAVBAR ELEGANTE
+           NAVBAR ELEGANTE (Colores sólidos)
         ============================================ */
         .navbar {
-            background: linear-gradient(135deg, rgba(30, 31, 35, 0.95), rgba(22, 66, 54, 0.95));
-            backdrop-filter: blur(20px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            background: #164236;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
             transition: all 0.4s ease;
             padding: 0.75rem 2rem;
             position: fixed;
             width: 100%;
             z-index: 1000;
-            border-bottom: 2px solid rgba(31, 91, 79, 0.5);
+            border-bottom: 2px solid #1f5b4f;
         }
 
         .navbar.scrolled {
-            background: linear-gradient(135deg, rgba(30, 31, 35, 0.98), rgba(22, 66, 54, 0.98));
-            padding: 0.4rem 2rem;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            background: #11342a;
+            padding: 0.45rem 2rem;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.35);
         }
 
         .navbar-brand {
@@ -533,32 +533,20 @@
         }
 
         /* ============================================
-           FOOTER ELEGANTE
+           FOOTER ELEGANTE (Colores sólidos)
         ============================================ */
         .footer {
-            background: linear-gradient(135deg, var(--dark), var(--verde-dark));
+            background: #11342a;
             color: var(--crema);
             text-align: center;
-            padding: 2.5rem;
+            padding: 3rem 1rem 3.5rem;
             margin-top: 5rem;
-            border-top: 3px solid var(--verde);
+            border-top: 3px solid #1f5b4f;
             position: relative;
-            overflow: hidden;
-        }
-
-        .footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--vino), var(--verde), var(--vino));
-            animation: shimmer 2s infinite;
         }
 
         .footer p {
-            margin: 0;
+            margin: 0 0 12px 0;
             font-size: 0.95rem;
             opacity: 0.95;
             font-weight: 300;
@@ -569,6 +557,204 @@
             color: var(--verde-light) !important;
             font-size: 1.2rem;
             animation: floatSlow 3s ease-in-out infinite;
+        }
+
+        .footer-legal-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .legal-link-btn {
+            background: none;
+            border: none;
+            color: #72dfca;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 4px 6px;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: color 0.2s ease;
+        }
+
+        .legal-link-btn:hover {
+            color: #a7f3d0;
+        }
+
+        .legal-sep {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.8rem;
+        }
+
+        /* Modal Legal */
+        .legal-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 20, 25, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 100000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+            animation: fadeIn 0.25s ease;
+        }
+        .legal-modal-overlay.active {
+            display: flex;
+        }
+        .legal-modal-card {
+            background: #ffffff;
+            border-radius: 20px;
+            max-width: 680px;
+            width: 100%;
+            max-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(0,0,0,0.1);
+            text-align: left;
+        }
+        .legal-modal-header {
+            padding: 20px 24px;
+            background: #1f5b4f;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .legal-modal-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .legal-modal-close {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.4rem;
+            cursor: pointer;
+            opacity: 0.85;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .legal-modal-close:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        .legal-modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            font-size: 0.92rem;
+            line-height: 1.65;
+            color: #374151;
+        }
+        .legal-modal-body h4 {
+            color: #164236;
+            margin: 18px 0 6px 0;
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+        .legal-modal-footer {
+            padding: 16px 24px;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .btn-legal-entendido {
+            background: #1f5b4f;
+            color: #fff;
+            border: none;
+            padding: 8px 22px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .btn-legal-entendido:hover {
+            background: #164236;
+        }
+
+        /* Cookie Banner */
+        .cookie-banner {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            max-width: 480px;
+            width: calc(100% - 40px);
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+            border: 2px solid #1f5b4f;
+            z-index: 99999;
+            box-sizing: border-box;
+            display: none;
+            text-align: left;
+            animation: slideUp 0.3s ease;
+        }
+        .cookie-banner-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            color: #164236;
+        }
+        .cookie-banner-header h4 {
+            margin: 0;
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+        .cookie-banner-text {
+            font-size: 0.86rem;
+            color: #4b5563;
+            line-height: 1.5;
+            margin: 0 0 16px 0;
+        }
+        .cookie-banner-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn-cookie-accept {
+            flex: 1;
+            background: #1f5b4f;
+            color: #fff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.86rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            text-align: center;
+        }
+        .btn-cookie-accept:hover {
+            background: #164236;
+        }
+        .btn-cookie-essential {
+            background: #e5e7eb;
+            color: #374151;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.86rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            text-align: center;
+        }
+        .btn-cookie-essential:hover {
+            background: #d1d5db;
         }
 
         /* ============================================
@@ -770,11 +956,122 @@
             <div class="row">
                 <div class="col-12">
                     <i class="fas fa-university mr-2"></i>
-                    <p class="d-inline-block">&copy; 2025 Portal ITINEWS - Universidad Politécnica del Valle de Toluca</p>
+                    <p class="d-inline-block">&copy; {{ date('Y') }} Portal ITINEWS - Universidad Politécnica del Valle de Toluca</p>
+                    <div class="footer-legal-links">
+                        <button type="button" class="legal-link-btn" onclick="abrirModalLegal('terminos')">Términos y Condiciones</button>
+                        <span class="legal-sep">&bull;</span>
+                        <button type="button" class="legal-link-btn" onclick="abrirModalLegal('privacidad')">Aviso de Privacidad</button>
+                        <span class="legal-sep">&bull;</span>
+                        <button type="button" class="legal-link-btn" onclick="abrirModalLegal('cookies')">Política de Cookies</button>
+                        <span class="legal-sep">&bull;</span>
+                        <button type="button" class="legal-link-btn" onclick="mostrarBannerCookies(true)">Preferencias de Privacidad</button>
+                    </div>
                 </div>
             </div>
         </div>
     </footer>
+
+    <!-- MODAL TÉRMINOS Y CONDICIONES -->
+    <div id="modalLegalTerminos" class="legal-modal-overlay" onclick="if(event.target===this) cerrarModalLegal('terminos')">
+        <div class="legal-modal-card">
+            <div class="legal-modal-header">
+                <h3><i class="fas fa-file-contract"></i> Términos y Condiciones de Uso</h3>
+                <button type="button" class="legal-modal-close" onclick="cerrarModalLegal('terminos')" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="legal-modal-body">
+                <h4>1. Aceptación de los Términos</h4>
+                <p>Al acceder y utilizar el <strong>Portal ITINEWS</strong> de la Universidad Politécnica del Valle de Toluca (UPVT), usted acepta sujetarse a los presentes Términos y Condiciones de uso con fines exclusivamente académicos, informativos y de divulgación científica.</p>
+
+                <h4>2. Propiedad Intelectual y Derechos de Autor</h4>
+                <p>Todo el contenido publicado, incluyendo artículos, reseñas, imágenes, diseños editoriales, portadas y logotipos, se encuentra protegido por las leyes de propiedad intelectual mexicanas e internacionales. Los autores de los artículos conservan sus derechos morales, otorgando a la UPVT el derecho de difusión no comercial.</p>
+
+                <h4>3. Uso Permitido y Citas</h4>
+                <p>Se autoriza la consulta, lectura y cita académica de las publicaciones siempre que se otorgue el debido crédito al autor y a la revista ITINEWS UPVT, indicando el número y año de la edición correspondiente. Queda prohibida la reproducción total o parcial con fines de lucro sin autorización previa por escrito.</p>
+
+                <h4>4. Responsabilidad del Usuario</h4>
+                <p>El usuario se compromete a hacer un uso lícito y respetuoso de los recursos del portal, absteniéndose de realizar actos que puedan dañar, inutilizar, sobrecargar o deteriorar los servidores o servicios del sistema.</p>
+            </div>
+            <div class="legal-modal-footer">
+                <button type="button" class="btn-legal-entendido" onclick="cerrarModalLegal('terminos')">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL AVISO DE PRIVACIDAD -->
+    <div id="modalLegalPrivacidad" class="legal-modal-overlay" onclick="if(event.target===this) cerrarModalLegal('privacidad')">
+        <div class="legal-modal-card">
+            <div class="legal-modal-header">
+                <h3><i class="fas fa-shield-alt"></i> Aviso de Privacidad Integral</h3>
+                <button type="button" class="legal-modal-close" onclick="cerrarModalLegal('privacidad')" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="legal-modal-body">
+                <h4>1. Responsable del Tratamiento</h4>
+                <p>La <strong>Universidad Politécnica del Valle de Toluca (UPVT)</strong>, a través de la División de Ingeniería en Tecnologías de la Información, es la responsable del tratamiento de los datos en cumplimiento con la <em>Ley General de Protección de Datos Personales en Posesión de Sujetos Obligados</em>.</p>
+
+                <h4>2. Datos Recabados y Finalidad</h4>
+                <p>El Portal ITINEWS es un repositorio de libre acceso y <strong>no solicita ni almacena datos personales sensibles</strong> de los lectores generales. Las preferencias y métricas de lectura se conservan de forma local en su propio navegador.</p>
+
+                <h4>3. Métricas Anónimas</h4>
+                <p>Para fines de acreditación académica y optimización, el portal registra métricas agregadas anónimas (páginas vistas y tiempos) sin vincularlas a su identidad personal.</p>
+
+                <h4>4. Ejercicio de Derechos ARCO</h4>
+                <p>Para cualquier consulta referente a la privacidad del portal o el ejercicio de derechos ARCO, puede comunicarse con la Unidad de Transparencia de la UPVT a través de sus canales institucionales oficiales.</p>
+            </div>
+            <div class="legal-modal-footer">
+                <button type="button" class="btn-legal-entendido" onclick="cerrarModalLegal('privacidad')">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL POLÍTICA DE COOKIES -->
+    <div id="modalLegalCookies" class="legal-modal-overlay" onclick="if(event.target===this) cerrarModalLegal('cookies')">
+        <div class="legal-modal-card">
+            <div class="legal-modal-header">
+                <h3><i class="fas fa-cookie-bite"></i> Política de Cookies y Almacenamiento</h3>
+                <button type="button" class="legal-modal-close" onclick="cerrarModalLegal('cookies')" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="legal-modal-body">
+                <h4>1. ¿Qué tecnologías utilizamos?</h4>
+                <p>El Portal ITINEWS utiliza <strong>almacenamiento web funcional (LocalStorage)</strong> y cookies técnicas esenciales. No utilizamos cookies publicitarias, comerciales ni rastreadores de terceros.</p>
+
+                <h4>2. Finalidades Funcionales</h4>
+                <ul>
+                    <li><strong>Preferencia Visual:</strong> Recordar si prefieres navegar en Modo Claro o Modo Oscuro.</li>
+                    <li><strong>Favoritos:</strong> Guardar las revistas que marcas con corazón en tu biblioteca personal del navegador.</li>
+                    <li><strong>Métricas de Lectura Personal:</strong> Permitir que lleves el control del tiempo dedicado y páginas leídas en tu sección "Mis Estadísticas".</li>
+                    <li><strong>Sesión Administrativa:</strong> En el caso de docentes y administradores, validar el token CSRF y la sesión segura de Laravel.</li>
+                </ul>
+
+                <h4>3. Control y Eliminación</h4>
+                <p>Puedes borrar tus datos locales en cualquier momento desde la sección <em>Mis Estadísticas &gt; Reiniciar Estadísticas</em> o limpiando el almacenamiento de tu navegador.</p>
+            </div>
+            <div class="legal-modal-footer">
+                <button type="button" class="btn-legal-entendido" onclick="cerrarModalLegal('cookies')">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BANNER DE COOKIES FUNCIONALES -->
+    <aside id="bannerCookies" class="cookie-banner" role="dialog" aria-labelledby="cookieBannerTitle" aria-describedby="cookieBannerDesc">
+        <div class="cookie-banner-header">
+            <i class="fas fa-cookie-bite fa-lg"></i>
+            <h4 id="cookieBannerTitle">Privacidad y Almacenamiento Local</h4>
+        </div>
+        <p id="cookieBannerDesc" class="cookie-banner-text">
+            Utilizamos almacenamiento local funcional para recordar tu tema (claro/oscuro), tus revistas favoritas y calcular tus métricas personales de lectura sin rastreo comercial.
+        </p>
+        <div class="cookie-banner-actions">
+            <button type="button" class="btn-cookie-accept" onclick="gestionarCookies('todas')">
+                <i class="fas fa-check"></i> Aceptar Funcionales
+            </button>
+            <button type="button" class="btn-cookie-essential" onclick="gestionarCookies('esenciales')">
+                Solo Esenciales
+            </button>
+            <button type="button" class="btn-cookie-essential" onclick="abrirModalLegal('cookies')" style="border: 1px solid #cbd5e1;">
+                <i class="fas fa-info-circle"></i> Detalles
+            </button>
+        </div>
+    </aside>
 
     {{-- BOTÓN VOLVER ARRIBA --}}
     <button id="btnScrollTop" class="scroll-top-btn" title="Volver arriba">
@@ -865,6 +1162,65 @@
                 }
             });
         }
+
+        // Modales legales y banner de cookies
+        function abrirModalLegal(tipo) {
+            const idMap = {
+                'terminos': 'modalLegalTerminos',
+                'privacidad': 'modalLegalPrivacidad',
+                'cookies': 'modalLegalCookies'
+            };
+            const modal = document.getElementById(idMap[tipo]);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function cerrarModalLegal(tipo) {
+            const idMap = {
+                'terminos': 'modalLegalTerminos',
+                'privacidad': 'modalLegalPrivacidad',
+                'cookies': 'modalLegalCookies'
+            };
+            const modal = document.getElementById(idMap[tipo]);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function gestionarCookies(nivel) {
+            try {
+                localStorage.setItem('itinews_cookies_consent', nivel);
+                localStorage.setItem('itinews_cookies_date', new Date().toISOString());
+            } catch(e) {}
+            const banner = document.getElementById('bannerCookies');
+            if (banner) banner.style.display = 'none';
+        }
+
+        function mostrarBannerCookies(forzar = false) {
+            const banner = document.getElementById('bannerCookies');
+            if (!banner) return;
+            const consent = localStorage.getItem('itinews_cookies_consent');
+            if (!consent || forzar) {
+                banner.style.display = 'block';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                mostrarBannerCookies(false);
+            }, 800);
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    cerrarModalLegal('terminos');
+                    cerrarModalLegal('privacidad');
+                    cerrarModalLegal('cookies');
+                }
+            });
+        });
     </script>
 </body>
 </html>
